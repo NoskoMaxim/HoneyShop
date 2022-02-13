@@ -1,0 +1,18 @@
+-- Table: public.blank_honey
+
+-- DROP TABLE IF EXISTS public.blank_honey;
+
+CREATE TABLE IF NOT EXISTS public.blank_honey
+(
+    id integer NOT NULL DEFAULT nextval('blank_honey_id_seq'::regclass),
+    name text COLLATE pg_catalog."default" NOT NULL,
+    description text COLLATE pg_catalog."default" NOT NULL,
+    price money NOT NULL,
+    photo bytea[],
+    CONSTRAINT blank_honey_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.blank_honey
+    OWNER to root;

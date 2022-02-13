@@ -1,0 +1,18 @@
+-- Table: public.products_beekeeping
+
+-- DROP TABLE IF EXISTS public.products_beekeeping;
+
+CREATE TABLE IF NOT EXISTS public.products_beekeeping
+(
+    id integer NOT NULL DEFAULT nextval('products_beekeeping_id_seq'::regclass),
+    name text COLLATE pg_catalog."default" NOT NULL,
+    description text COLLATE pg_catalog."default" NOT NULL,
+    price money NOT NULL,
+    photo bytea[],
+    CONSTRAINT products_beekeeping_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.products_beekeeping
+    OWNER to root;
