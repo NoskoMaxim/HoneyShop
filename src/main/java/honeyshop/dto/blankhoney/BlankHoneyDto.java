@@ -1,4 +1,4 @@
-package honeyshop.dtos.blankhoney;
+package honeyshop.dto.blankhoney;
 
 public class BlankHoneyDto {
     private Long blankHoneyId;

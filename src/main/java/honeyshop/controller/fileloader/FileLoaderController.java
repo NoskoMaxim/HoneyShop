@@ -1,4 +1,4 @@
-package honeyshop.controllers.fileloader;
+package honeyshop.controller.fileloader;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

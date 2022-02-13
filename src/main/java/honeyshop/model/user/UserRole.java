@@ -1,4 +1,4 @@
-package honeyshop.models.user;
+package honeyshop.model.user;
 
 public enum UserRole {
     VISITOR,

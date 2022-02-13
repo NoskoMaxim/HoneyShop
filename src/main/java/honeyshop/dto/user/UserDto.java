@@ -1,6 +1,6 @@
-package honeyshop.dtos.user;
+package honeyshop.dto.user;
 
-import honeyshop.models.user.UserRole;
+import honeyshop.model.user.UserRole;
 
 public class UserDto {
     private Long userId;

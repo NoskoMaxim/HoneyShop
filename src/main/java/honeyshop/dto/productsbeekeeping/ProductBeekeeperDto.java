@@ -1,21 +1,21 @@
-package honeyshop.dtos.inventorybeekeepers;
+package honeyshop.dto.productsbeekeeping;
 
-public class InventoryBeekeeperDto {
-    private Long inventoryBeekeeperId;
+public class ProductBeekeeperDto {
+    private Long productBeekeeperId;
     private String name;
     private String description;
     private Integer price;
     private Byte[] photo;
 
-    public InventoryBeekeeperDto() {
+    public ProductBeekeeperDto() {
     }
 
-    public Long getInventoryBeekeeperId() {
-        return inventoryBeekeeperId;
+    public Long getProductBeekeeperId() {
+        return productBeekeeperId;
     }
 
-    public void setInventoryBeekeeperId(Long inventoryBeekeeperId) {
-        this.inventoryBeekeeperId = inventoryBeekeeperId;
+    public void setProductBeekeeperId(Long productBeekeeperId) {
+        this.productBeekeeperId = productBeekeeperId;
     }
 
     public String getName() {
