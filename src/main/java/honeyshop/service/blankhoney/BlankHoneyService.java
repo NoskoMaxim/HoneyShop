@@ -18,24 +18,25 @@ public class BlankHoneyService {
 
     public void addBlankHoney(BlankHoneyDto blankHoneyDto) {
         BlankHoney blankHoney = new BlankHoney();
-        blankHoney.setName(blankHoneyDto.getName());
-        blankHoney.setDescription(blankHoneyDto.getDescription());
-        blankHoney.setPrice(blankHoneyDto.getPrice());
-        blankHoney.setPhotoUrl(blankHoneyDto.getPhotoUrl());
+        initBlankHoney(blankHoneyDto, blankHoney);
         blankHoneyRepos.save(blankHoney);
     }
 
     public void updateBlankHoney(BlankHoneyDto blankHoneyDto) {
         BlankHoney blankHoney = new BlankHoney();
         blankHoney.setBlankHoneyId(blankHoneyDto.getBlankHoneyId());
-        blankHoney.setName(blankHoneyDto.getName());
-        blankHoney.setDescription(blankHoneyDto.getDescription());
-        blankHoney.setPrice(blankHoneyDto.getPrice());
-        blankHoney.setPhotoUrl(blankHoneyDto.getPhotoUrl());
+        initBlankHoney(blankHoneyDto, blankHoney);
         blankHoneyRepos.save(blankHoney);
     }
 
     public void deleteBlankHoney(Long blankHoneyId) {
         blankHoneyRepos.deleteById(blankHoneyId);
+    }
+
+    private void initBlankHoney(BlankHoneyDto blankHoneyDto, BlankHoney blankHoney) {
+        blankHoney.setName(blankHoneyDto.getName());
+        blankHoney.setDescription(blankHoneyDto.getDescription());
+        blankHoney.setPrice(blankHoneyDto.getPrice());
+        blankHoney.setPhotoUrl(blankHoneyDto.getPhotoUrl());
     }
 }
