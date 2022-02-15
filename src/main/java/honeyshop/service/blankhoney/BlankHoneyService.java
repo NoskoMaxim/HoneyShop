@@ -25,7 +25,7 @@ public class BlankHoneyService {
         blankHoneyRepos.save(blankHoney);
     }
 
-    public void updatePublication(BlankHoneyDto blankHoneyDto) {
+    public void updateBlankHoney(BlankHoneyDto blankHoneyDto) {
         BlankHoney blankHoney = new BlankHoney();
         blankHoney.setBlankHoneyId(blankHoneyDto.getBlankHoneyId());
         blankHoney.setName(blankHoneyDto.getName());

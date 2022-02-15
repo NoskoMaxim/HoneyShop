@@ -6,7 +6,7 @@ public class InventoryBeekeeperDto {
     private Long inventoryBeekeeperId;
     private String name;
     private String description;
-    private PGmoney price;
+    private Integer price;
     private String photoUrl;
 
     public InventoryBeekeeperDto() {
@@ -36,11 +36,11 @@ public class InventoryBeekeeperDto {
         this.description = description;
     }
 
-    public PGmoney getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(PGmoney price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

@@ -21,7 +21,7 @@ public class InventoryBeekeeper {
     private String description;
 
     @Column(name = "price")
-    private PGmoney price;
+    private Integer price;
 
     @Column(name = "photo_url")
     private String photoUrl;
@@ -53,11 +53,11 @@ public class InventoryBeekeeper {
         this.description = description;
     }
 
-    public PGmoney getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(PGmoney price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

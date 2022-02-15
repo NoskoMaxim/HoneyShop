@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/honeyshop/blankhoney",
-        consumes = {MediaType.APPLICATION_JSON_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
 public class BlankHoneyController {
 
@@ -20,15 +19,17 @@ public class BlankHoneyController {
         this.blankHoneyService = blankHoneyService;
     }
 
-    @PostMapping(value = "/create")
+    @PostMapping(value = "/create",
+            consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity addBlankHoney(@RequestBody BlankHoneyDto blankHoneyDto) {
         blankHoneyService.addBlankHoney(blankHoneyDto);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping(value = "/update",
+            consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity updateBlankHoney(@RequestBody BlankHoneyDto blankHoneyDto) {
-        blankHoneyService.updatePublication(blankHoneyDto);
+        blankHoneyService.updateBlankHoney(blankHoneyDto);
         return ResponseEntity.ok().build();
     }
 
