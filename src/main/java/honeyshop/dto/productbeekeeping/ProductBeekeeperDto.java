@@ -1,11 +1,13 @@
 package honeyshop.dto.productbeekeeping;
 
+import org.postgresql.util.PGmoney;
+
 public class ProductBeekeeperDto {
     private Long productBeekeeperId;
     private String name;
     private String description;
-    private Integer price;
-    private Byte[] photo;
+    private PGmoney price;
+    private String photoUrl;
 
     public ProductBeekeeperDto() {
     }
@@ -34,19 +36,19 @@ public class ProductBeekeeperDto {
         this.description = description;
     }
 
-    public Integer getPrice() {
+    public PGmoney getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(PGmoney price) {
         this.price = price;
     }
 
-    public Byte[] getPhoto() {
-        return photo;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhoto(Byte[] photo) {
-        this.photo = photo;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 }

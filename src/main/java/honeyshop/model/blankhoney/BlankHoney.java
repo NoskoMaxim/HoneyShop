@@ -1,5 +1,7 @@
 package honeyshop.model.blankhoney;
 
+import org.postgresql.util.PGmoney;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,10 +21,10 @@ public class BlankHoney {
     private String description;
 
     @Column(name = "price")
-    private Integer price;
+    private PGmoney price;
 
-    @Column(name = "photo")
-    private Byte[] photo;
+    @Column(name = "photo_url")
+    private String photoUrl;
 
     public BlankHoney() {
     }
@@ -51,19 +53,19 @@ public class BlankHoney {
         this.description = description;
     }
 
-    public Integer getPrice() {
+    public PGmoney getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(PGmoney price) {
         this.price = price;
     }
 
-    public Byte[] getPhoto() {
-        return photo;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhoto(Byte[] photo) {
-        this.photo = photo;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 }
