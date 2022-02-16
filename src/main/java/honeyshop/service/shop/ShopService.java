@@ -12,10 +12,12 @@ import honeyshop.repository.section.ProductBeekeeperRepos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class ShopService {
 
     private final BlankHoneyRepos blankHoneyRepos;
@@ -23,7 +25,9 @@ public class ShopService {
     private final ProductBeekeeperRepos productBeekeeperRepos;
 
     @Autowired
-    public ShopService(BlankHoneyRepos blankHoneyRepos, InventoryBeekeeperRepos inventoryBeekeeperRepos, ProductBeekeeperRepos productBeekeeperRepos) {
+    public ShopService(BlankHoneyRepos blankHoneyRepos,
+                       InventoryBeekeeperRepos inventoryBeekeeperRepos,
+                       ProductBeekeeperRepos productBeekeeperRepos) {
         this.blankHoneyRepos = blankHoneyRepos;
         this.inventoryBeekeeperRepos = inventoryBeekeeperRepos;
         this.productBeekeeperRepos = productBeekeeperRepos;
@@ -44,6 +48,21 @@ public class ShopService {
         return convertProductBeekeeperListToProductBeekeeperDtoList(productsBeekeeper);
     }
 
+    public BlankHoneyDto getBlankHoneyByName(String name) {
+        return convertBlankHoneToBlankHoneyDto(blankHoneyRepos
+                .getBlankHoneyByName(name));
+    }
+
+    public InventoryBeekeeperDto getInventoryBeekeeperByName(String name) {
+        return convertInventoryBeekeeperToInventoryBeekeeperDto(inventoryBeekeeperRepos
+                .getInventoryBeekeeperByName(name));
+    }
+
+    public ProductBeekeeperDto getProductsBeekeeperByName(String name) {
+        return convertProductBeekeeperToProductBeekeeperDto(productBeekeeperRepos
+                .getProductBeekeeperByName(name));
+    }
+
     private List<BlankHoneyDto> convertBlankHoneListToBlankHoneyDtoList(List<BlankHoney> blanksHoney) {
         List<BlankHoneyDto> blanksHoneyDto = new ArrayList<>();
         blanksHoney.forEach(blankHoney ->
@@ -54,7 +73,8 @@ public class ShopService {
     private List<InventoryBeekeeperDto> convertInventoryBeekeeperListToInventoryBeekeeperDtoList(List<InventoryBeekeeper> inventoriesBeekeeper) {
         List<InventoryBeekeeperDto> inventoriesBeekeeperDto = new ArrayList<>();
         inventoriesBeekeeper.forEach(inventoryBeekeeper ->
-                inventoriesBeekeeperDto.add(convertInventoryBeekeeperToInventoryBeekeeperDto(inventoryBeekeeper)));
+                inventoriesBeekeeperDto
+                        .add(convertInventoryBeekeeperToInventoryBeekeeperDto(inventoryBeekeeper)));
         return inventoriesBeekeeperDto;
 
     }
@@ -62,7 +82,8 @@ public class ShopService {
     private List<ProductBeekeeperDto> convertProductBeekeeperListToProductBeekeeperDtoList(List<ProductBeekeeper> productsBeekeeper) {
         List<ProductBeekeeperDto> productsBeekeeperDto = new ArrayList<>();
         productsBeekeeper.forEach(productBeekeeper ->
-                productsBeekeeperDto.add(convertProductBeekeeperToProductBeekeeperDto(productBeekeeper)));
+                productsBeekeeperDto
+                        .add(convertProductBeekeeperToProductBeekeeperDto(productBeekeeper)));
         return productsBeekeeperDto;
     }
 
@@ -78,7 +99,8 @@ public class ShopService {
 
     private InventoryBeekeeperDto convertInventoryBeekeeperToInventoryBeekeeperDto(InventoryBeekeeper inventoryBeekeeper) {
         InventoryBeekeeperDto inventoryBeekeeperDto = new InventoryBeekeeperDto();
-        inventoryBeekeeperDto.setInventoryBeekeeperId(inventoryBeekeeper.getInventoryBeekeeperId());
+        inventoryBeekeeperDto.setInventoryBeekeeperId(inventoryBeekeeper
+                .getInventoryBeekeeperId());
         inventoryBeekeeperDto.setName(inventoryBeekeeper.getName());
         inventoryBeekeeperDto.setDescription(inventoryBeekeeper.getDescription());
         inventoryBeekeeperDto.setPrice(inventoryBeekeeper.getPrice());

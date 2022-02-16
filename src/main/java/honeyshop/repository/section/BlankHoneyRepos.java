@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BlankHoneyRepos extends JpaRepository<BlankHoney, Long> {
+    BlankHoney getBlankHoneyByName(String name);
 }

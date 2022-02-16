@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InventoryBeekeeperRepos extends JpaRepository<InventoryBeekeeper, Long> {
+    InventoryBeekeeper getInventoryBeekeeperByName(String name);
 }

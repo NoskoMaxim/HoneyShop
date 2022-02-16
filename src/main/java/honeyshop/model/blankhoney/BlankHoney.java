@@ -12,7 +12,7 @@ public class BlankHoney {
     @PrimaryKeyJoinColumn
     private Long blankHoneyId;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "description")

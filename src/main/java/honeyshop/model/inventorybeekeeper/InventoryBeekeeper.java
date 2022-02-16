@@ -12,7 +12,7 @@ public class InventoryBeekeeper {
     @PrimaryKeyJoinColumn
     private Long inventoryBeekeeperId;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "description")

@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,13 +27,28 @@ public class ShopController {
         return ResponseEntity.ok().body(shopService.getAllBlanksHoney());
     }
 
-    @GetMapping(value = "/allinventoriesbreekeeper")
+    @GetMapping(value = "/findblankshoneybyname")
+    public ResponseEntity getBlankHoneyByName(@RequestParam String name){
+        return ResponseEntity.ok().body(shopService.getBlankHoneyByName(name));
+    }
+
+    @GetMapping(value = "/allinventoriesbeekeeper")
     public ResponseEntity getAllInventoriesBeekeeper(){
         return ResponseEntity.ok().body(shopService.getAllInventoriesBeekeeper());
     }
 
-    @GetMapping(value = "/allproductsbreekeeper")
+    @GetMapping(value = "/findinventorybeekeeperbyname")
+    public ResponseEntity getInventoryBeekeeperByName(@RequestParam String name){
+        return ResponseEntity.ok().body(shopService.getInventoryBeekeeperByName(name));
+    }
+
+    @GetMapping(value = "/allproductsbeekeeper")
     public ResponseEntity getAllProductsBeekeeper(){
         return ResponseEntity.ok().body(shopService.getAllProductsBeekeeper());
+    }
+
+    @GetMapping(value = "/findproductbeekeeperbyname")
+    public ResponseEntity getProductsBeekeeperByName(@RequestParam String name){
+        return ResponseEntity.ok().body(shopService.getProductsBeekeeperByName(name));
     }
 }
