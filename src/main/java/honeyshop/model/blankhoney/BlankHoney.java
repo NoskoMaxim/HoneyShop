@@ -1,7 +1,5 @@
 package honeyshop.model.blankhoney;
 
-import org.postgresql.util.PGmoney;
-
 import javax.persistence.*;
 
 @Entity

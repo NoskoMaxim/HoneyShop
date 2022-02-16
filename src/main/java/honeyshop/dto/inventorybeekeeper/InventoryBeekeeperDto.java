@@ -1,7 +1,5 @@
 package honeyshop.dto.inventorybeekeeper;
 
-import org.postgresql.util.PGmoney;
-
 public class InventoryBeekeeperDto {
     private Long inventoryBeekeeperId;
     private String name;

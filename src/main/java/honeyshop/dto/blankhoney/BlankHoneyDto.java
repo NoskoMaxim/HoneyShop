@@ -1,7 +1,5 @@
 package honeyshop.dto.blankhoney;
 
-import org.postgresql.util.PGmoney;
-
 public class BlankHoneyDto {
     private Long blankHoneyId;
     private String name;
