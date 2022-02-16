@@ -1,12 +1,16 @@
 package honeyshop.service.blankhoney;
 
+import honeyshop.config.exception.honeyshopexception.HoneyShopException;
 import honeyshop.dto.blankhoney.BlankHoneyDto;
 import honeyshop.model.blankhoney.BlankHoney;
 import honeyshop.repository.section.BlankHoneyRepos;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -22,7 +26,13 @@ public class BlankHoneyService {
     public void addBlankHoney(BlankHoneyDto blankHoneyDto) {
         BlankHoney blankHoney = new BlankHoney();
         initBlankHoney(blankHoneyDto, blankHoney);
-        blankHoneyRepos.save(blankHoney);
+        try {
+            blankHoneyRepos.save(blankHoney);
+        }catch (DataIntegrityViolationException psqlException){
+            Map<String, String> failures = new HashMap<>();
+            failures.put("BlankHoneyNameException", "Blank honey name already exists");
+            throw new HoneyShopException(failures);
+        }
     }
 
     public void updateBlankHoney(BlankHoneyDto blankHoneyDto) {
