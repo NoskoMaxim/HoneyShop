@@ -1,18 +1,19 @@
--- Table: public.inventory_beekeepers
+-- Table: public.inventory_beekeeper
 
--- DROP TABLE IF EXISTS public.inventory_beekeepers;
+-- DROP TABLE IF EXISTS public.inventory_beekeeper;
 
-CREATE TABLE IF NOT EXISTS public.inventory_beekeepers
+CREATE TABLE IF NOT EXISTS public.inventory_beekeeper
 (
     id integer NOT NULL DEFAULT nextval('inventory_beekeepers_id_seq'::regclass),
     name text COLLATE pg_catalog."default" NOT NULL,
     description text COLLATE pg_catalog."default" NOT NULL,
     price money NOT NULL,
-    photo bytea[],
-    CONSTRAINT inventory_beekeepers_pkey PRIMARY KEY (id)
+    photo_url text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT inventory_beekeepers_pkey PRIMARY KEY (id),
+    CONSTRAINT inventory_beekeepers_name UNIQUE (name)
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.inventory_beekeepers
+ALTER TABLE IF EXISTS public.inventory_beekeeper
     OWNER to root;
