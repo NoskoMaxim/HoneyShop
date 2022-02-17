@@ -1,6 +1,7 @@
 package honeyshop.service.user;
 
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
+import honeyshop.dto.user.RoleToUserForm;
 import honeyshop.dto.user.UserDto;
 import honeyshop.model.user.User;
 import honeyshop.model.user.role.UserRole;
@@ -71,9 +72,9 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public void addRoleToUser(String username, String roleName) {
-        Optional<User> user = userRepos.findUserByUsername(username);
-        Optional<UserRole> role = roleRepo.findUserRoleByName(roleName);
+    public void addRoleToUser(RoleToUserForm roleToUserForm) {
+        Optional<User> user = userRepos.findUserByUsername(roleToUserForm.getUsername());
+        Optional<UserRole> role = roleRepo.findUserRoleByName(roleToUserForm.getRoleName());
         if (user.isEmpty() || role.isEmpty()) {
             Map<String, String> failures = new HashMap<>();
             failures.put(
