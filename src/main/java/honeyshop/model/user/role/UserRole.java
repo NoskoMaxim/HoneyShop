@@ -21,13 +21,6 @@ public class UserRole {
     @Column(name = "name", unique = true)
     private String name;
 
-    @ManyToMany(fetch = EAGER)
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    List<User> users = new ArrayList<>();
-
     public UserRole() {
     }
 
@@ -45,13 +38,5 @@ public class UserRole {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
     }
 }

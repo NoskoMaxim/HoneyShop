@@ -3,6 +3,7 @@ package honeyshop.service.user;
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
 import honeyshop.dto.user.RoleToUserForm;
 import honeyshop.dto.user.UserDto;
+import honeyshop.dto.user.UserRoleDto;
 import honeyshop.dto.user.UsernameAndPasswordToCreateForm;
 import honeyshop.model.user.User;
 import honeyshop.model.user.role.UserRole;
@@ -66,6 +67,21 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public UserDto getUserByUsername(String username) {
+        Optional<User> user = userRepos.findUserByUsername(username);
+        if (user.isEmpty()) {
+            Map<String, String> failures = new HashMap<>();
+            failures.put("UsernameException", "Username does not exist");
+            throw new HoneyShopException(failures);
+        }
+        return convertUserToUserDto(user.get());
+    }
+
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepos.findAll();
+        return convertUserListToUserDtoList(users);
+    }
+
     public void createRole(String roleName) {
         UserRole role = new UserRole();
         role.setName(roleName);
@@ -80,6 +96,11 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public List<UserRoleDto> getAllRoles() {
+        List<UserRole> roles = roleRepo.findAll();
+        return convertUserRoleListToUserRoleDto(roles);
+    }
+
     public void addRoleToUser(RoleToUserForm roleToUserForm) {
         Optional<User> user = userRepos.findUserByUsername(roleToUserForm.getUsername());
         Optional<UserRole> role = roleRepo.findUserRoleByName(roleToUserForm.getRoleName());
@@ -92,21 +113,6 @@ public class UserService implements UserDetailsService {
         }
         user.get().getRoles().add(role.get());
         userRepos.save(user.get());
-    }
-
-    public UserDto getUserByUsername(String username) {
-        Optional<User> user = userRepos.findUserByUsername(username);
-        if (user.isEmpty()) {
-            Map<String, String> failures = new HashMap<>();
-            failures.put("UsernameException", "Username does not exist");
-            throw new HoneyShopException(failures);
-        }
-        return convertUserToUserDto(user.get());
-    }
-
-    public List<UserDto> getAllUsers() {
-        List<User> users = userRepos.findAll();
-        return convertUserListToUserDtoList(users);
     }
 
     private UserDto convertUserToUserDto(User user) {
@@ -126,5 +132,18 @@ public class UserService implements UserDetailsService {
         List<UserDto> usersDto = new ArrayList<>();
         users.forEach(user -> usersDto.add(convertUserToUserDto(user)));
         return usersDto;
+    }
+
+    private UserRoleDto convertUserRoleToUserRoleDto(UserRole role) {
+        UserRoleDto roleDto = new UserRoleDto();
+        roleDto.setRoleId(role.getRoleId());
+        roleDto.setRoleName(role.getName());
+        return roleDto;
+    }
+
+    private List<UserRoleDto> convertUserRoleListToUserRoleDto(List<UserRole> roles) {
+        List<UserRoleDto> rolesDto = new ArrayList<>();
+        roles.forEach(role -> rolesDto.add(convertUserRoleToUserRoleDto(role)));
+        return rolesDto;
     }
 }

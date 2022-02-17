@@ -51,4 +51,10 @@ public class UserController {
         userService.addRoleToUser(roleForm);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping(value = "/role/get/all",
+            produces = {APPLICATION_JSON_VALUE})
+    public ResponseEntity getAllRoles() {
+        return ResponseEntity.ok().body(userService.getAllRoles());
+    }
 }
