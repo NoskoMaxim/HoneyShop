@@ -1,6 +1,9 @@
 package honeyshop.dto.user;
 
-import honeyshop.model.user.UserRole;
+
+import honeyshop.model.user.role.UserRole;
+
+import java.util.List;
 
 public class UserDto {
     private Long userId;
@@ -10,7 +13,7 @@ public class UserDto {
     private String lastName;
     private String email;
     private String phone;
-    private UserRole role;
+    private List<UserRole> roles;
 
     public UserDto() {
     }
@@ -71,12 +74,12 @@ public class UserDto {
         this.phone = phone;
     }
 
-    public UserRole getRole() {
-        return role;
+    public List<UserRole> getRoles() {
+        return roles;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setRoles(List<UserRole> roles) {
+        this.roles = roles;
     }
 }
 

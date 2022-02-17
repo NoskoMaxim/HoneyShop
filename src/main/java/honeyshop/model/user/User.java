@@ -1,6 +1,12 @@
 package honeyshop.model.user;
 
+import honeyshop.model.user.role.UserRole;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Table(name = "user", schema = "public")
@@ -30,8 +36,12 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "role")
-    private UserRole role;
+    @ManyToMany(fetch = EAGER)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<UserRole> roles = new ArrayList<>();
 
     public User() {
     }
@@ -92,11 +102,11 @@ public class User {
         this.phone = phone;
     }
 
-    public UserRole getRole() {
-        return role;
+    public List<UserRole> getRoles() {
+        return roles;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setRoles(List<UserRole> roles) {
+        this.roles = roles;
     }
 }

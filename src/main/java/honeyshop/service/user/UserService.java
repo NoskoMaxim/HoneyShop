@@ -3,10 +3,15 @@ package honeyshop.service.user;
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
 import honeyshop.dto.user.UserDto;
 import honeyshop.model.user.User;
-import honeyshop.model.user.UserRole;
+import honeyshop.model.user.role.UserRole;
+import honeyshop.repository.role.RoleRepo;
 import honeyshop.repository.user.UserRepos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,13 +19,29 @@ import java.util.*;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepos userRepos;
+    private final RoleRepo roleRepo;
 
     @Autowired
-    public UserService(UserRepos userRepos) {
+    public UserService(UserRepos userRepos, RoleRepo roleRepo) {
         this.userRepos = userRepos;
+        this.roleRepo = roleRepo;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = userRepos.findUserByUsername(username);
+        if (user.isEmpty()) {
+            Map<String, String> failures = new HashMap<>();
+            failures.put("UsernameException", "Username does not exist");
+            throw new HoneyShopException(failures);
+        }
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), authorities);
+
     }
 
     public void addUser(UserDto userDto) {
@@ -36,20 +57,37 @@ public class UserService {
         }
     }
 
-    public void addRoleToUser(String username, UserRole userRole) {
-        Optional<User> user = userRepos.findUserByUsername(username);
-        if (user.isEmpty()){
+    public void addRole(String roleName) {
+        UserRole role = new UserRole();
+        role.setName(roleName);
+        try {
+            roleRepo.save(role);
+        } catch (DataIntegrityViolationException exception) {
             Map<String, String> failures = new HashMap<>();
-            failures.put("UsernameException", "Username does not exist");
+            failures.put(
+                    "RoleNameException",
+                    "Role with name " + roleName + " already exists");
             throw new HoneyShopException(failures);
         }
-        user.get().setRole(userRole);
+    }
+
+    public void addRoleToUser(String username, String roleName) {
+        Optional<User> user = userRepos.findUserByUsername(username);
+        Optional<UserRole> role = roleRepo.findUserRoleByName(roleName);
+        if (user.isEmpty() || role.isEmpty()) {
+            Map<String, String> failures = new HashMap<>();
+            failures.put(
+                    "UsernameOrRoleNameNotFoundException",
+                    "Username or Role name does not exist");
+            throw new HoneyShopException(failures);
+        }
+        user.get().getRoles().add(role.get());
         userRepos.save(user.get());
     }
 
     public UserDto getUserByUsername(String username) {
         Optional<User> user = userRepos.findUserByUsername(username);
-        if (user.isEmpty()){
+        if (user.isEmpty()) {
             Map<String, String> failures = new HashMap<>();
             failures.put("UsernameException", "Username does not exist");
             throw new HoneyShopException(failures);
@@ -71,11 +109,11 @@ public class UserService {
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setPhone(user.getPhone());
-        userDto.setRole(user.getRole());
+        userDto.setRoles(user.getRoles());
         return userDto;
     }
 
-    private List<UserDto> convertUserListToUserDtoList(List<User> users){
+    private List<UserDto> convertUserListToUserDtoList(List<User> users) {
         List<UserDto> usersDto = new ArrayList<>();
         users.forEach(user -> usersDto.add(convertUserToUserDto(user)));
         return usersDto;
