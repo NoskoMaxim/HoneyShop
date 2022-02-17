@@ -13,6 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,11 +25,13 @@ public class UserService implements UserDetailsService {
 
     private final UserRepos userRepos;
     private final RoleRepo roleRepo;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepos userRepos, RoleRepo roleRepo) {
+    public UserService(UserRepos userRepos, RoleRepo roleRepo, PasswordEncoder passwordEncoder) {
         this.userRepos = userRepos;
         this.roleRepo = roleRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class UserService implements UserDetailsService {
                 .add(new SimpleGrantedAuthority(role.getName())));
         return new org.springframework.security.core.userdetails.User(
                 user.get().getUsername(),
-                user.get().getPassword(), 
+                user.get().getPassword(),
                 authorities);
 
     }
@@ -52,7 +55,7 @@ public class UserService implements UserDetailsService {
     public void addUser(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         try {
             userRepos.save(user);
         } catch (DataIntegrityViolationException exception) {
