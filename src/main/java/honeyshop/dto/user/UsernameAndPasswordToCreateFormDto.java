@@ -1,10 +1,10 @@
 package honeyshop.dto.user;
 
-public class UsernameAndPasswordToCreateForm {
+public class UsernameAndPasswordToCreateFormDto {
     private String username;
     private String password;
 
-    public UsernameAndPasswordToCreateForm() {
+    public UsernameAndPasswordToCreateFormDto() {
     }
 
     public String getUsername() {

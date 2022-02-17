@@ -1,10 +1,10 @@
 package honeyshop.service.user;
 
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
-import honeyshop.dto.user.RoleToUserForm;
+import honeyshop.dto.user.RoleToUserFormDto;
 import honeyshop.dto.user.UserDto;
 import honeyshop.dto.user.UserRoleDto;
-import honeyshop.dto.user.UsernameAndPasswordToCreateForm;
+import honeyshop.dto.user.UsernameAndPasswordToCreateFormDto;
 import honeyshop.model.user.User;
 import honeyshop.model.user.role.UserRole;
 import honeyshop.repository.role.RoleRepo;
@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public void createUser(UsernameAndPasswordToCreateForm createForm) {
+    public void createUser(UsernameAndPasswordToCreateFormDto createForm) {
         User user = new User();
         user.setUsername(createForm.getUsername());
         user.setPassword(passwordEncoder.encode(createForm.getPassword()));
@@ -101,9 +101,9 @@ public class UserService implements UserDetailsService {
         return convertUserRoleListToUserRoleDto(roles);
     }
 
-    public void addRoleToUser(RoleToUserForm roleToUserForm) {
-        Optional<User> user = userRepos.findUserByUsername(roleToUserForm.getUsername());
-        Optional<UserRole> role = roleRepo.findUserRoleByName(roleToUserForm.getRoleName());
+    public void addRoleToUser(RoleToUserFormDto roleToUserFormDto) {
+        Optional<User> user = userRepos.findUserByUsername(roleToUserFormDto.getUsername());
+        Optional<UserRole> role = roleRepo.findUserRoleByName(roleToUserFormDto.getRoleName());
         if (user.isEmpty() || role.isEmpty()) {
             Map<String, String> failures = new HashMap<>();
             failures.put(

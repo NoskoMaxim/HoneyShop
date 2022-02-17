@@ -1,10 +1,10 @@
 package honeyshop.dto.user;
 
-public class RoleToUserForm {
+public class RoleToUserFormDto {
     private String username;
     private String roleName;
 
-    public RoleToUserForm() {
+    public RoleToUserFormDto() {
     }
 
     public String getUsername() {

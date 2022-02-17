@@ -1,7 +1,7 @@
 package honeyshop.controller.user;
 
-import honeyshop.dto.user.RoleToUserForm;
-import honeyshop.dto.user.UsernameAndPasswordToCreateForm;
+import honeyshop.dto.user.RoleToUserFormDto;
+import honeyshop.dto.user.UsernameAndPasswordToCreateFormDto;
 import honeyshop.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class UserController {
 
     @PostMapping(value = "/user/create",
             consumes = {APPLICATION_JSON_VALUE})
-    public ResponseEntity createUser(@RequestBody UsernameAndPasswordToCreateForm createForm) {
+    public ResponseEntity createUser(@RequestBody UsernameAndPasswordToCreateFormDto createForm) {
         userService.createUser(createForm);
         return ResponseEntity.ok().build();
     }
@@ -47,7 +47,7 @@ public class UserController {
 
     @PostMapping(value = "/role/add",
             consumes = {APPLICATION_JSON_VALUE})
-    public ResponseEntity addRoleToUser(@RequestBody RoleToUserForm roleForm) {
+    public ResponseEntity addRoleToUser(@RequestBody RoleToUserFormDto roleForm) {
         userService.addRoleToUser(roleForm);
         return ResponseEntity.ok().build();
     }
