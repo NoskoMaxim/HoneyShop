@@ -3,6 +3,7 @@ package honeyshop.service.user;
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
 import honeyshop.dto.user.RoleToUserForm;
 import honeyshop.dto.user.UserDto;
+import honeyshop.dto.user.UsernameAndPasswordToCreateForm;
 import honeyshop.model.user.User;
 import honeyshop.model.user.role.UserRole;
 import honeyshop.repository.role.RoleRepo;
@@ -52,10 +53,10 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public void addUser(UserDto userDto) {
+    public void createUser(UsernameAndPasswordToCreateForm createForm) {
         User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setUsername(createForm.getUsername());
+        user.setPassword(passwordEncoder.encode(createForm.getPassword()));
         try {
             userRepos.save(user);
         } catch (DataIntegrityViolationException exception) {
@@ -65,7 +66,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public void addRole(String roleName) {
+    public void createRole(String roleName) {
         UserRole role = new UserRole();
         role.setName(roleName);
         try {
