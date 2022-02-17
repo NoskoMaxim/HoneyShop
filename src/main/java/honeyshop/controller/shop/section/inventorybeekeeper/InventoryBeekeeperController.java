@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/honeyshop/inventorybeekeeper",
+@RequestMapping(value = "/honeyshop/sections/inventorybeekeeper",
         produces = {MediaType.APPLICATION_JSON_VALUE})
 public class InventoryBeekeeperController {
 
@@ -35,7 +35,7 @@ public class InventoryBeekeeperController {
         return ResponseEntity.ok(new OperationMessageDto("Successful operation"));
     }
 
-    @DeleteMapping(value = "/{inventoryBeekeeperId}")
+    @DeleteMapping(value = "/delete/{inventoryBeekeeperId}")
     public ResponseEntity deleteInventoryBeekeeper(@PathVariable Long inventoryBeekeeperId) {
         inventoryBeekeeperService.deleteInventoryBeekeeper(inventoryBeekeeperId);
         return ResponseEntity.ok(new OperationMessageDto("Successful operation"));

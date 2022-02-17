@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/honeyshop/blankhoney",
+@RequestMapping(value = "/honeyshop/sections/blankhoney",
         produces = {MediaType.APPLICATION_JSON_VALUE})
 public class BlankHoneyController {
 
@@ -34,7 +34,7 @@ public class BlankHoneyController {
         return ResponseEntity.ok(new OperationMessageDto("Successful operation"));
     }
 
-    @DeleteMapping(value = "/{blankHoneyId}")
+    @DeleteMapping(value = "/delete/{blankHoneyId}")
     public ResponseEntity deleteBlankHoney(@PathVariable Long blankHoneyId) {
         blankHoneyService.deleteBlankHoney(blankHoneyId);
         return ResponseEntity.ok(new OperationMessageDto("Successful operation"));

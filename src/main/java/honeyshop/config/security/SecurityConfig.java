@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -34,10 +35,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+        customAuthenticationFilter.setFilterProcessesUrl("/honeyshop/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().anyRequest().permitAll();
-        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
+        http.authorizeRequests().antMatchers(
+                        GET, "/honeyshop/shop/**")
+                .permitAll();
+        http.authorizeRequests().antMatchers(
+                        POST, "/honeyshop/user/create", "/honeyshop/login")
+                .permitAll();
+        http.authorizeRequests().antMatchers(
+                        GET, "/honeyshop/user/get/all")
+                .hasAnyAuthority("USER", "ADMIN", "MAINADMIN");
+        http.authorizeRequests().antMatchers(
+                        GET, "/honeyshop/user/get/{username}")
+                .hasAnyAuthority("USER", "ADMIN", "MAINADMIN");
+        http.authorizeRequests().antMatchers(
+                        POST, "/honeyshop/role/create")
+                .hasAnyAuthority("MAINADMIN");
+        http.authorizeRequests().antMatchers(
+                        POST, "/honeyshop/role/add")
+                .hasAnyAuthority("MAINADMIN");
+        http.authorizeRequests().antMatchers(
+                        GET, "/honeyshop/role/get/all")
+                .hasAnyAuthority("MAINADMIN");
+
+        http.authorizeRequests().antMatchers(
+                        POST, "/honeyshop/sections/**")
+                .hasAnyAuthority("USER");
+        http.authorizeRequests().antMatchers(
+                        PUT, "/honeyshop/sections/**")
+                .hasAnyAuthority("USER");
+        http.authorizeRequests().antMatchers(
+                        DELETE, "/honeyshop/sections/**")
+                .hasAnyAuthority("USER", "ADMIN", "MAINADMIN");
+        http.addFilter(customAuthenticationFilter);
     }
 
     @Bean
