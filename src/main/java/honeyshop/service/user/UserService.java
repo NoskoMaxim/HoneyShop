@@ -40,8 +40,12 @@ public class UserService implements UserDetailsService {
             throw new HoneyShopException(failures);
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
-        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), authorities);
+        user.get().getRoles().forEach(role -> authorities
+                .add(new SimpleGrantedAuthority(role.getName())));
+        return new org.springframework.security.core.userdetails.User(
+                user.get().getUsername(),
+                user.get().getPassword(), 
+                authorities);
 
     }
 
