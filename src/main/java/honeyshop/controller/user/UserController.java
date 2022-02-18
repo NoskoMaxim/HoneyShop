@@ -7,6 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -56,5 +61,10 @@ public class UserController {
             produces = {APPLICATION_JSON_VALUE})
     public ResponseEntity getAllRoles() {
         return ResponseEntity.ok().body(userService.getAllRoles());
+    }
+
+    @GetMapping(value = "/token/refresh")
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        userService.refreshToken(request, response);
     }
 }
