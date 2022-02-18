@@ -2,12 +2,14 @@ package honeyshop.model.blankhoney;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.AUTO;
+
 @Entity
 @Table(name = "blank_honey", schema = "public")
 public class BlankHoney {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = AUTO)
     @Column(name = "id")
     @PrimaryKeyJoinColumn
     private Long blankHoneyId;

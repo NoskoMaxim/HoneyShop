@@ -1,5 +1,6 @@
 package honeyshop.service.shop;
 
+import honeyshop.config.exception.honeyshopexception.HoneyShopException;
 import honeyshop.dto.blankhoney.BlankHoneyDto;
 import honeyshop.dto.inventorybeekeeper.InventoryBeekeeperDto;
 import honeyshop.dto.productbeekeeping.ProductBeekeeperDto;
@@ -13,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -49,18 +49,33 @@ public class ShopService {
     }
 
     public BlankHoneyDto getBlankHoneyByName(String name) {
-        return convertBlankHoneToBlankHoneyDto(blankHoneyRepos
-                .getBlankHoneyByName(name));
+        Optional<BlankHoney> blankHoney = blankHoneyRepos.getBlankHoneyByName(name);
+        if (blankHoney.isEmpty()){
+            Map<String, String> failures = new HashMap<>();
+            failures.put("BlankHoneyNameNotFoundException", "Blank honey name not found");
+            throw new HoneyShopException(failures);
+        }
+        return convertBlankHoneToBlankHoneyDto(blankHoney.get());
     }
 
     public InventoryBeekeeperDto getInventoryBeekeeperByName(String name) {
-        return convertInventoryBeekeeperToInventoryBeekeeperDto(inventoryBeekeeperRepos
-                .getInventoryBeekeeperByName(name));
+        Optional<InventoryBeekeeper> inventoryBeekeeper = inventoryBeekeeperRepos.getInventoryBeekeeperByName(name);
+        if (inventoryBeekeeper.isEmpty()){
+            Map<String, String> failures = new HashMap<>();
+            failures.put("InventoryBeekeeperNameNotFoundException", "Inventory beekeeper name not found");
+            throw new HoneyShopException(failures);
+        }
+        return convertInventoryBeekeeperToInventoryBeekeeperDto(inventoryBeekeeper.get());
     }
 
     public ProductBeekeeperDto getProductsBeekeeperByName(String name) {
-        return convertProductBeekeeperToProductBeekeeperDto(productBeekeeperRepos
-                .getProductBeekeeperByName(name));
+        Optional<ProductBeekeeper> productBeekeeper = productBeekeeperRepos.getProductBeekeeperByName(name);
+        if (productBeekeeper.isEmpty()){
+            Map<String, String> failures = new HashMap<>();
+            failures.put("ProductBeekeeperNameNotFoundException", "Product beekeeper name not found");
+            throw new HoneyShopException(failures);
+        }
+        return convertProductBeekeeperToProductBeekeeperDto(productBeekeeper.get());
     }
 
     private List<BlankHoneyDto> convertBlankHoneListToBlankHoneyDtoList(List<BlankHoney> blanksHoney) {

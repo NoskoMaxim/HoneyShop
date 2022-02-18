@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @Table(name = "role")
 public class UserRole {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = AUTO)
     @Column(name = "id")
     @PrimaryKeyJoinColumn
     private Long roleId;
@@ -22,6 +23,10 @@ public class UserRole {
     private String name;
 
     public UserRole() {
+    }
+
+    public UserRole(String name) {
+        this.name = name;
     }
 
     public Long getRoleId() {
