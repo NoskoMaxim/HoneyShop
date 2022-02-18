@@ -9,17 +9,16 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class ProductBeekeeperReposTest {
 
     @Autowired
-    private ProductBeekeeperRepos underTestRepo;
+    private ProductBeekeeperRepos underTestRepos;
 
     @AfterEach
     void tearDown() {
-        underTestRepo.deleteAll();
+        underTestRepos.deleteAll();
     }
 
     @Test
@@ -29,10 +28,10 @@ class ProductBeekeeperReposTest {
         String productBeekeeperName = "Акациевый мёд";
         ProductBeekeeper inventoryBeekeeper = new ProductBeekeeper();
         inventoryBeekeeper.setName(productBeekeeperName);
-        underTestRepo.save(inventoryBeekeeper);
+        underTestRepos.save(inventoryBeekeeper);
 
         //Act
-        Optional<ProductBeekeeper> expected = underTestRepo
+        Optional<ProductBeekeeper> expected = underTestRepos
                 .getProductBeekeeperByName(productBeekeeperName);
 
         //Assert
@@ -46,7 +45,7 @@ class ProductBeekeeperReposTest {
         String productBeekeeperName = "Акациевый мёд";
 
         //Act
-        Optional<ProductBeekeeper> expected = underTestRepo
+        Optional<ProductBeekeeper> expected = underTestRepos
                 .getProductBeekeeperByName(productBeekeeperName);
 
         //Assert

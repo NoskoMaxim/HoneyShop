@@ -9,17 +9,16 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class UserReposTest {
 
     @Autowired
-    private UserRepos underTestRepo;
+    private UserRepos underTestRepos;
 
     @AfterEach
     void tearDown() {
-        underTestRepo.deleteAll();
+        underTestRepos.deleteAll();
     }
 
     @Test
@@ -29,10 +28,10 @@ class UserReposTest {
         String username = "Max";
         User user = new User();
         user.setUsername(username);
-        underTestRepo.save(user);
+        underTestRepos.save(user);
 
         //Act
-        Optional<User> expected = underTestRepo
+        Optional<User> expected = underTestRepos
                 .findUserByUsername(username);
 
         //Assert
@@ -46,7 +45,7 @@ class UserReposTest {
         String username = "Max";
 
         //Act
-        Optional<User> expected = underTestRepo
+        Optional<User> expected = underTestRepos
                 .findUserByUsername(username);
 
         //Assert

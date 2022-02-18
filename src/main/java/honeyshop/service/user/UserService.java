@@ -12,7 +12,7 @@ import honeyshop.dto.user.UserRoleDto;
 import honeyshop.dto.user.UsernameAndPasswordToCreateFormDto;
 import honeyshop.model.user.User;
 import honeyshop.model.user.role.UserRole;
-import honeyshop.repository.role.RoleRepo;
+import honeyshop.repository.role.RoleRepos;
 import honeyshop.repository.user.UserRepos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -39,13 +39,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserService implements UserDetailsService {
 
     private final UserRepos userRepos;
-    private final RoleRepo roleRepo;
+    private final RoleRepos roleRepos;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepos userRepos, RoleRepo roleRepo, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepos userRepos, RoleRepos roleRepos, PasswordEncoder passwordEncoder) {
         this.userRepos = userRepos;
-        this.roleRepo = roleRepo;
+        this.roleRepos = roleRepos;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -73,7 +73,7 @@ public class UserService implements UserDetailsService {
         try {
             userRepos.save(user);
             user = userRepos.findUserByUsername(createForm.getUsername()).get();
-            user.getRoles().add(roleRepo.findUserRoleByName("USER").get());
+            user.getRoles().add(roleRepos.findUserRoleByName("USER").get());
             userRepos.save(user);
         } catch (DataIntegrityViolationException exception) {
             Map<String, String> failures = new HashMap<>();
@@ -101,7 +101,7 @@ public class UserService implements UserDetailsService {
         UserRole role = new UserRole();
         role.setName(roleName);
         try {
-            roleRepo.save(role);
+            roleRepos.save(role);
         } catch (DataIntegrityViolationException exception) {
             Map<String, String> failures = new HashMap<>();
             failures.put(
@@ -112,13 +112,13 @@ public class UserService implements UserDetailsService {
     }
 
     public List<UserRoleDto> getAllRoles() {
-        List<UserRole> roles = roleRepo.findAll();
+        List<UserRole> roles = roleRepos.findAll();
         return convertUserRoleListToUserRoleDto(roles);
     }
 
     public void addRoleToUser(RoleToUserFormDto roleToUserFormDto) {
         Optional<User> user = userRepos.findUserByUsername(roleToUserFormDto.getUsername());
-        Optional<UserRole> role = roleRepo.findUserRoleByName(roleToUserFormDto.getRoleName());
+        Optional<UserRole> role = roleRepos.findUserRoleByName(roleToUserFormDto.getRoleName());
         if (user.isEmpty() || role.isEmpty()) {
             Map<String, String> failures = new HashMap<>();
             failures.put(

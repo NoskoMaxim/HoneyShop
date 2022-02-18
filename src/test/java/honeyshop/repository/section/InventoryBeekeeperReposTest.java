@@ -14,11 +14,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class InventoryBeekeeperReposTest {
 
     @Autowired
-    private InventoryBeekeeperRepos underTestRepo;
+    private InventoryBeekeeperRepos underTestRepos;
 
     @AfterEach
     void tearDown() {
-        underTestRepo.deleteAll();
+        underTestRepos.deleteAll();
     }
 
     @Test
@@ -28,10 +28,10 @@ class InventoryBeekeeperReposTest {
         String inventoryBeekeeperName = "Акациевый мёд";
         InventoryBeekeeper inventoryBeekeeper = new InventoryBeekeeper();
         inventoryBeekeeper.setName(inventoryBeekeeperName);
-        underTestRepo.save(inventoryBeekeeper);
+        underTestRepos.save(inventoryBeekeeper);
 
         //Act
-        Optional<InventoryBeekeeper> expected = underTestRepo
+        Optional<InventoryBeekeeper> expected = underTestRepos
                 .getInventoryBeekeeperByName(inventoryBeekeeperName);
 
         //Assert
@@ -45,7 +45,7 @@ class InventoryBeekeeperReposTest {
         String inventoryBeekeeperName = "Акациевый мёд";
 
         //Act
-        Optional<InventoryBeekeeper> expected = underTestRepo
+        Optional<InventoryBeekeeper> expected = underTestRepos
                 .getInventoryBeekeeperByName(inventoryBeekeeperName);
 
         //Assert

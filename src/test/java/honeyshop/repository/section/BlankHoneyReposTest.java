@@ -14,11 +14,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class BlankHoneyReposTest {
 
     @Autowired
-    private BlankHoneyRepos underTestRepo;
+    private BlankHoneyRepos underTestRepos;
 
     @AfterEach
     void tearDown() {
-        underTestRepo.deleteAll();
+        underTestRepos.deleteAll();
     }
 
     @Test
@@ -28,10 +28,10 @@ class BlankHoneyReposTest {
         String blankHoneyName = "Акациевый мёд";
         BlankHoney blankHoney = new BlankHoney();
         blankHoney.setName(blankHoneyName);
-        underTestRepo.save(blankHoney);
+        underTestRepos.save(blankHoney);
 
         //Act
-        Optional<BlankHoney> expected = underTestRepo
+        Optional<BlankHoney> expected = underTestRepos
                 .getBlankHoneyByName(blankHoneyName);
 
         //Assert
@@ -45,7 +45,7 @@ class BlankHoneyReposTest {
         String blankHoneyName = "Акациевый мёд";
 
         //Act
-        Optional<BlankHoney> expected = underTestRepo
+        Optional<BlankHoney> expected = underTestRepos
                 .getBlankHoneyByName(blankHoneyName);
 
         //Assert

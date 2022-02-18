@@ -11,14 +11,14 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
-class RoleRepoTest {
+class RoleReposTest {
 
     @Autowired
-    private RoleRepo underTestRepo;
+    private RoleRepos underTestRepos;
 
     @AfterEach
     void tearDown() {
-        underTestRepo.deleteAll();
+        underTestRepos.deleteAll();
     }
 
     @Test
@@ -28,10 +28,10 @@ class RoleRepoTest {
         String roleName = "VISITOR";
         UserRole role = new UserRole();
         role.setName(roleName);
-        underTestRepo.save(role);
+        underTestRepos.save(role);
 
         //Act
-        Optional<UserRole> expected = underTestRepo
+        Optional<UserRole> expected = underTestRepos
                 .findUserRoleByName(roleName);
 
         //Assert
@@ -45,7 +45,7 @@ class RoleRepoTest {
         String roleName = "VISITOR";
 
         //Act
-        Optional<UserRole> expected = underTestRepo
+        Optional<UserRole> expected = underTestRepos
                 .findUserRoleByName(roleName);
 
         //Assert
