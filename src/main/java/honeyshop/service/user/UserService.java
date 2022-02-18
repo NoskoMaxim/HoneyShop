@@ -64,7 +64,6 @@ public class UserService implements UserDetailsService {
                 user.get().getUsername(),
                 user.get().getPassword(),
                 authorities);
-
     }
 
     public void createUser(UsernameAndPasswordToCreateFormDto createForm) {
@@ -72,6 +71,9 @@ public class UserService implements UserDetailsService {
         user.setUsername(createForm.getUsername());
         user.setPassword(passwordEncoder.encode(createForm.getPassword()));
         try {
+            userRepos.save(user);
+            user = userRepos.findUserByUsername(createForm.getUsername()).get();
+            user.getRoles().add(roleRepo.findUserRoleByName("USER").get());
             userRepos.save(user);
         } catch (DataIntegrityViolationException exception) {
             Map<String, String> failures = new HashMap<>();
@@ -140,7 +142,7 @@ public class UserService implements UserDetailsService {
                 User user = userRepos.findUserByUsername(username).get();
                 String accessToken = JWT.create()
                         .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 120 * 60 * 1000))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", user.getRoles().stream()
                                 .map(UserRole::getName).collect(Collectors.toList()))
