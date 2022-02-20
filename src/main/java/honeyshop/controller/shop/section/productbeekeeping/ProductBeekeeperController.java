@@ -1,12 +1,10 @@
 package honeyshop.controller.shop.section.productbeekeeping;
 
 import honeyshop.dto.OperationMessageDto;
-import honeyshop.dto.inventorybeekeeper.InventoryBeekeeperDto;
 import honeyshop.dto.productbeekeeping.ProductBeekeeperDto;
 import honeyshop.service.productbeekeeping.ProductBeekeeperService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

@@ -1,12 +1,7 @@
 package honeyshop.model.user.role;
 
-import honeyshop.model.user.User;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity

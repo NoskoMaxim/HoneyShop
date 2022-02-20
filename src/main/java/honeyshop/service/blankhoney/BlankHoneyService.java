@@ -9,8 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -46,7 +45,7 @@ public class BlankHoneyService {
         blankHoneyRepos.deleteById(blankHoneyId);
     }
 
-    private void initBlankHoney(BlankHoneyDto blankHoneyDto, BlankHoney blankHoney) {
+    public void initBlankHoney(BlankHoneyDto blankHoneyDto, BlankHoney blankHoney) {
         blankHoney.setName(blankHoneyDto.getName());
         blankHoney.setDescription(blankHoneyDto.getDescription());
         blankHoney.setPrice(blankHoneyDto.getPrice());

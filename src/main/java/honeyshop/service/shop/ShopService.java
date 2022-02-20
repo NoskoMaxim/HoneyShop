@@ -7,9 +7,7 @@ import honeyshop.dto.productbeekeeping.ProductBeekeeperDto;
 import honeyshop.model.blankhoney.BlankHoney;
 import honeyshop.model.inventorybeekeeper.InventoryBeekeeper;
 import honeyshop.model.productbeekeeping.ProductBeekeeper;
-import honeyshop.repository.section.BlankHoneyRepos;
-import honeyshop.repository.section.InventoryBeekeeperRepos;
-import honeyshop.repository.section.ProductBeekeeperRepos;
+import honeyshop.repository.section.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

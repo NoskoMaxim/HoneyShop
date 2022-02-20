@@ -1,15 +1,11 @@
 package honeyshop.service.user;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.*;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
-import honeyshop.dto.user.RoleToUserFormDto;
-import honeyshop.dto.user.UserDto;
-import honeyshop.dto.user.UserRoleDto;
-import honeyshop.dto.user.UsernameAndPasswordToCreateFormDto;
+import honeyshop.dto.user.*;
 import honeyshop.model.user.User;
 import honeyshop.model.user.role.UserRole;
 import honeyshop.repository.role.RoleRepos;
@@ -17,14 +13,11 @@ import honeyshop.repository.user.UserRepos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
