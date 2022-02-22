@@ -6,6 +6,7 @@ import honeyshop.model.blankhoney.BlankHoney;
 import honeyshop.repository.section.BlankHoneyRepos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -45,7 +46,13 @@ public class BlankHoneyServiceImpl implements BlankHoneyService {
 
     @Override
     public void deleteBlankHoney(Long blankHoneyId) {
-        blankHoneyRepos.deleteById(blankHoneyId);
+        try {
+            blankHoneyRepos.deleteById(blankHoneyId);
+        }catch (EmptyResultDataAccessException psqlException){
+            Map<String, String> failures = new HashMap<>();
+            failures.put("NotFoundBlankHoneyException", "Blank honey does not exist");
+            throw new HoneyShopException(failures);
+        }
     }
 
     public void initBlankHoney(BlankHoneyDto blankHoneyDto, BlankHoney blankHoney) {

@@ -6,6 +6,7 @@ import honeyshop.model.inventorybeekeeper.InventoryBeekeeper;
 import honeyshop.repository.section.InventoryBeekeeperRepos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -45,7 +46,13 @@ public class InventoryBeekeeperServiceImpl implements InventoryBeekeeperService 
 
     @Override
     public void deleteInventoryBeekeeper(Long inventoryBeekeeperId) {
-        inventoryBeekeeperRepos.deleteById(inventoryBeekeeperId);
+        try {
+            inventoryBeekeeperRepos.deleteById(inventoryBeekeeperId);
+        }catch (EmptyResultDataAccessException psqlException){
+            Map<String, String> failures = new HashMap<>();
+            failures.put("NotFoundInventoryBeekeeperException", "Inventory beekeeper does not exist");
+            throw new HoneyShopException(failures);
+        }
     }
 
     private void initInventoryBeekeeper(InventoryBeekeeperDto inventoryBeekeeperDto, InventoryBeekeeper inventoryBeekeeper) {

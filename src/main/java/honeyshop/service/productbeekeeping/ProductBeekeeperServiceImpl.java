@@ -6,6 +6,7 @@ import honeyshop.model.productbeekeeping.ProductBeekeeper;
 import honeyshop.repository.section.ProductBeekeeperRepos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -45,7 +46,13 @@ public class ProductBeekeeperServiceImpl implements ProductBeekeeperService {
 
     @Override
     public void deleteProductBeekeeper(Long productBeekeeperId) {
-        productBeekeeperRepos.deleteById(productBeekeeperId);
+        try {
+            productBeekeeperRepos.deleteById(productBeekeeperId);
+        }catch (EmptyResultDataAccessException psqlException){
+            Map<String, String> failures = new HashMap<>();
+            failures.put("NotFoundProductBeekeeperException", "Product beekeeper does not exist");
+            throw new HoneyShopException(failures);
+        }
     }
 
     private void initProductBeekeeper(ProductBeekeeperDto productBeekeeperDto, ProductBeekeeper productBeekeeper) {
