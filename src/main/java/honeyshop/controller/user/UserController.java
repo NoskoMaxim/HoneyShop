@@ -2,7 +2,7 @@ package honeyshop.controller.user;
 
 import honeyshop.dto.user.RoleToUserFormDto;
 import honeyshop.dto.user.UsernameAndPasswordToCreateFormDto;
-import honeyshop.service.user.UserService;
+import honeyshop.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +17,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/honeyshop")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 

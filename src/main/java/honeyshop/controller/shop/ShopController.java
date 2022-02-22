@@ -1,6 +1,6 @@
 package honeyshop.controller.shop;
 
-import honeyshop.service.shop.ShopService;
+import honeyshop.service.shop.ShopServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
         produces = {MediaType.APPLICATION_JSON_VALUE})
 public class ShopController {
 
-    private final ShopService shopService;
+    private final ShopServiceImpl shopService;
 
     @Autowired
-    public ShopController(ShopService shopService) {
+    public ShopController(ShopServiceImpl shopService) {
         this.shopService = shopService;
     }
 
