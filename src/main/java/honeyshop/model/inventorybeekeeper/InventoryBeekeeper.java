@@ -2,14 +2,14 @@ package honeyshop.model.inventorybeekeeper;
 
 import javax.persistence.*;
 
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "inventory_beekeeper", schema = "public")
 public class InventoryBeekeeper {
 
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     @PrimaryKeyJoinColumn
     private Long inventoryBeekeeperId;

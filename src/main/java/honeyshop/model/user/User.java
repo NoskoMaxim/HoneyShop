@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "users", schema = "public")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     @PrimaryKeyJoinColumn
     private Long userId;

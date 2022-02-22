@@ -2,14 +2,14 @@ package honeyshop.model.user.role;
 
 import javax.persistence.*;
 
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "role")
 public class UserRole {
 
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     @PrimaryKeyJoinColumn
     private Long roleId;
