@@ -1,5 +1,6 @@
 package honeyshop.controller.user;
 
+import honeyshop.dto.OperationMessageDto;
 import honeyshop.dto.user.RoleToUserFormDto;
 import honeyshop.dto.user.UsernameAndPasswordToCreateFormDto;
 import honeyshop.service.user.UserServiceImpl;
@@ -28,7 +29,7 @@ public class UserController {
             consumes = {APPLICATION_JSON_VALUE})
     public ResponseEntity createUser(@RequestBody UsernameAndPasswordToCreateFormDto createForm) {
         userService.createUser(createForm);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new OperationMessageDto("Successful operation"));
     }
 
     @GetMapping(value = "/user/get/all",
@@ -46,14 +47,14 @@ public class UserController {
     @PostMapping(value = "/role/create")
     public ResponseEntity createRole(@RequestParam String roleName) {
         userService.createRole(roleName);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new OperationMessageDto("Successful operation"));
     }
 
     @PostMapping(value = "/role/add",
             consumes = {APPLICATION_JSON_VALUE})
     public ResponseEntity addRoleToUser(@RequestBody RoleToUserFormDto roleForm) {
         userService.addRoleToUser(roleForm);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new OperationMessageDto("Successful operation"));
     }
 
     @GetMapping(value = "/role/get/all",
