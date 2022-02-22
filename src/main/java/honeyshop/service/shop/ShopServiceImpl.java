@@ -1,5 +1,8 @@
 package honeyshop.service.shop;
 
+import honeyshop.adapter.blankhoney.*;
+import honeyshop.adapter.inventorybeekeeper.*;
+import honeyshop.adapter.productbeekeeping.*;
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
 import honeyshop.dto.blankhoney.BlankHoneyDto;
 import honeyshop.dto.inventorybeekeeper.InventoryBeekeeperDto;
@@ -21,6 +24,9 @@ public class ShopServiceImpl implements ShopService {
     private final BlankHoneyRepos blankHoneyRepos;
     private final InventoryBeekeeperRepos inventoryBeekeeperRepos;
     private final ProductBeekeeperRepos productBeekeeperRepos;
+    private final BlankHoneyAdapter blankHoneyAdapter = new BlankHoneyAdapterImpl();
+    private final InventoryBeekeeperAdapter inventoryBeekeeperAdapter = new InventoryBeekeeperAdapterImpl();
+    private final ProductBeekeeperAdapter productBeekeeperAdapter = new ProductBeekeeperAdapterImpl();
 
     @Autowired
     public ShopServiceImpl(BlankHoneyRepos blankHoneyRepos,
@@ -34,19 +40,19 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public List<BlankHoneyDto> getAllBlanksHoney() {
         List<BlankHoney> blanksHoney = blankHoneyRepos.findAll();
-        return convertBlankHoneListToBlankHoneyDtoList(blanksHoney);
+        return blankHoneyAdapter.getBlankHoneyDtoList(blanksHoney);
     }
 
     @Override
     public List<InventoryBeekeeperDto> getAllInventoriesBeekeeper() {
         List<InventoryBeekeeper> inventoriesBeekeeper = inventoryBeekeeperRepos.findAll();
-        return convertInventoryBeekeeperListToInventoryBeekeeperDtoList(inventoriesBeekeeper);
+        return inventoryBeekeeperAdapter.getInventoryBeekeeperDtoList(inventoriesBeekeeper);
     }
 
     @Override
     public List<ProductBeekeeperDto> getAllProductsBeekeeper() {
         List<ProductBeekeeper> productsBeekeeper = productBeekeeperRepos.findAll();
-        return convertProductBeekeeperListToProductBeekeeperDtoList(productsBeekeeper);
+        return productBeekeeperAdapter.getProductBeekeeperDtoList(productsBeekeeper);
     }
 
     @Override
@@ -57,7 +63,7 @@ public class ShopServiceImpl implements ShopService {
             failures.put("BlankHoneyNameNotFoundException", "Blank honey name not found");
             throw new HoneyShopException(failures);
         }
-        return convertBlankHoneToBlankHoneyDto(blankHoney.get());
+        return blankHoneyAdapter.getBlankHoneyDto(blankHoney.get());
     }
 
     @Override
@@ -68,7 +74,7 @@ public class ShopServiceImpl implements ShopService {
             failures.put("InventoryBeekeeperNameNotFoundException", "Inventory beekeeper name not found");
             throw new HoneyShopException(failures);
         }
-        return convertInventoryBeekeeperToInventoryBeekeeperDto(inventoryBeekeeper.get());
+        return inventoryBeekeeperAdapter.getInventoryBeekeeperDto(inventoryBeekeeper.get());
     }
 
     @Override
@@ -79,61 +85,6 @@ public class ShopServiceImpl implements ShopService {
             failures.put("ProductBeekeeperNameNotFoundException", "Product beekeeper name not found");
             throw new HoneyShopException(failures);
         }
-        return convertProductBeekeeperToProductBeekeeperDto(productBeekeeper.get());
-    }
-
-    private List<BlankHoneyDto> convertBlankHoneListToBlankHoneyDtoList(List<BlankHoney> blanksHoney) {
-        List<BlankHoneyDto> blanksHoneyDto = new ArrayList<>();
-        blanksHoney.forEach(blankHoney ->
-                blanksHoneyDto.add(convertBlankHoneToBlankHoneyDto(blankHoney)));
-        return blanksHoneyDto;
-    }
-
-    private List<InventoryBeekeeperDto> convertInventoryBeekeeperListToInventoryBeekeeperDtoList(List<InventoryBeekeeper> inventoriesBeekeeper) {
-        List<InventoryBeekeeperDto> inventoriesBeekeeperDto = new ArrayList<>();
-        inventoriesBeekeeper.forEach(inventoryBeekeeper ->
-                inventoriesBeekeeperDto
-                        .add(convertInventoryBeekeeperToInventoryBeekeeperDto(inventoryBeekeeper)));
-        return inventoriesBeekeeperDto;
-
-    }
-
-    private List<ProductBeekeeperDto> convertProductBeekeeperListToProductBeekeeperDtoList(List<ProductBeekeeper> productsBeekeeper) {
-        List<ProductBeekeeperDto> productsBeekeeperDto = new ArrayList<>();
-        productsBeekeeper.forEach(productBeekeeper ->
-                productsBeekeeperDto
-                        .add(convertProductBeekeeperToProductBeekeeperDto(productBeekeeper)));
-        return productsBeekeeperDto;
-    }
-
-    private BlankHoneyDto convertBlankHoneToBlankHoneyDto(BlankHoney blankHoney) {
-        BlankHoneyDto blankHoneyDto = new BlankHoneyDto();
-        blankHoneyDto.setBlankHoneyId(blankHoney.getBlankHoneyId());
-        blankHoneyDto.setName(blankHoney.getName());
-        blankHoneyDto.setDescription(blankHoney.getDescription());
-        blankHoneyDto.setPrice(blankHoney.getPrice());
-        blankHoneyDto.setPhotoUrl(blankHoney.getPhotoUrl());
-        return blankHoneyDto;
-    }
-
-    private InventoryBeekeeperDto convertInventoryBeekeeperToInventoryBeekeeperDto(InventoryBeekeeper inventoryBeekeeper) {
-        InventoryBeekeeperDto inventoryBeekeeperDto = new InventoryBeekeeperDto();
-        inventoryBeekeeperDto.setInventoryBeekeeperId(inventoryBeekeeper
-                .getInventoryBeekeeperId());
-        inventoryBeekeeperDto.setName(inventoryBeekeeper.getName());
-        inventoryBeekeeperDto.setDescription(inventoryBeekeeper.getDescription());
-        inventoryBeekeeperDto.setPrice(inventoryBeekeeper.getPrice());
-        inventoryBeekeeperDto.setPhotoUrl(inventoryBeekeeper.getPhotoUrl());
-        return inventoryBeekeeperDto;
-    }
-
-    private ProductBeekeeperDto convertProductBeekeeperToProductBeekeeperDto(ProductBeekeeper productBeekeeper) {
-        ProductBeekeeperDto productBeekeeperDto = new ProductBeekeeperDto();
-        productBeekeeperDto.setProductBeekeeperId(productBeekeeper.getProductBeekeeperId());
-        productBeekeeperDto.setName(productBeekeeper.getName());
-        productBeekeeperDto.setDescription(productBeekeeper.getDescription());
-        productBeekeeperDto.setPrice(productBeekeeper.getPrice());
-        productBeekeeperDto.setPhotoUrl(productBeekeeper.getPhotoUrl());
-        return productBeekeeperDto;
+        return productBeekeeperAdapter.getProductBeekeeperDto(productBeekeeper.get());
     }
 }

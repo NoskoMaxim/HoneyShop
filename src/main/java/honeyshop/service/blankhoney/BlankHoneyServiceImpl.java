@@ -1,12 +1,12 @@
 package honeyshop.service.blankhoney;
 
+import honeyshop.adapter.blankhoney.*;
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
 import honeyshop.dto.blankhoney.BlankHoneyDto;
 import honeyshop.model.blankhoney.BlankHoney;
 import honeyshop.repository.section.BlankHoneyRepos;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,6 +17,7 @@ import java.util.*;
 public class BlankHoneyServiceImpl implements BlankHoneyService {
 
     private final BlankHoneyRepos blankHoneyRepos;
+    private final BlankHoneyAdapter blankHoneyAdapter = new BlankHoneyAdapterImpl();
 
     @Autowired
     public BlankHoneyServiceImpl(BlankHoneyRepos blankHoneyRepos) {
@@ -25,8 +26,7 @@ public class BlankHoneyServiceImpl implements BlankHoneyService {
 
     @Override
     public void addBlankHoney(BlankHoneyDto blankHoneyDto) {
-        BlankHoney blankHoney = new BlankHoney();
-        initBlankHoney(blankHoneyDto, blankHoney);
+        BlankHoney blankHoney = blankHoneyAdapter.getBlankHoney(blankHoneyDto);
         try {
             blankHoneyRepos.save(blankHoney);
         }catch (DataIntegrityViolationException psqlException){
@@ -38,9 +38,8 @@ public class BlankHoneyServiceImpl implements BlankHoneyService {
 
     @Override
     public void updateBlankHoney(BlankHoneyDto blankHoneyDto) {
-        BlankHoney blankHoney = new BlankHoney();
+        BlankHoney blankHoney = blankHoneyAdapter.getBlankHoney(blankHoneyDto);
         blankHoney.setBlankHoneyId(blankHoneyDto.getBlankHoneyId());
-        initBlankHoney(blankHoneyDto, blankHoney);
         blankHoneyRepos.save(blankHoney);
     }
 
@@ -53,12 +52,5 @@ public class BlankHoneyServiceImpl implements BlankHoneyService {
             failures.put("NotFoundBlankHoneyException", "Blank honey does not exist");
             throw new HoneyShopException(failures);
         }
-    }
-
-    public void initBlankHoney(BlankHoneyDto blankHoneyDto, BlankHoney blankHoney) {
-        blankHoney.setName(blankHoneyDto.getName());
-        blankHoney.setDescription(blankHoneyDto.getDescription());
-        blankHoney.setPrice(blankHoneyDto.getPrice());
-        blankHoney.setPhotoUrl(blankHoneyDto.getPhotoUrl());
     }
 }

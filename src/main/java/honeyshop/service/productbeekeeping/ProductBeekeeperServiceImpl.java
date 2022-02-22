@@ -1,12 +1,12 @@
 package honeyshop.service.productbeekeeping;
 
+import honeyshop.adapter.productbeekeeping.*;
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
 import honeyshop.dto.productbeekeeping.ProductBeekeeperDto;
 import honeyshop.model.productbeekeeping.ProductBeekeeper;
 import honeyshop.repository.section.ProductBeekeeperRepos;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,6 +17,7 @@ import java.util.*;
 public class ProductBeekeeperServiceImpl implements ProductBeekeeperService {
 
     private final ProductBeekeeperRepos productBeekeeperRepos;
+    private final ProductBeekeeperAdapter productBeekeeperAdapter = new ProductBeekeeperAdapterImpl();
 
     @Autowired
     public ProductBeekeeperServiceImpl(ProductBeekeeperRepos productBeekeeperRepos) {
@@ -25,8 +26,7 @@ public class ProductBeekeeperServiceImpl implements ProductBeekeeperService {
 
     @Override
     public void addProductBeekeeper(ProductBeekeeperDto productBeekeeperDto) {
-        ProductBeekeeper productBeekeeper = new ProductBeekeeper();
-        initProductBeekeeper(productBeekeeperDto, productBeekeeper);
+        ProductBeekeeper productBeekeeper = productBeekeeperAdapter.getProductBeekeeper(productBeekeeperDto);
         try {
             productBeekeeperRepos.save(productBeekeeper);
         } catch (DataIntegrityViolationException psqlException) {
@@ -38,9 +38,8 @@ public class ProductBeekeeperServiceImpl implements ProductBeekeeperService {
 
     @Override
     public void updateProductBeekeeper(ProductBeekeeperDto productBeekeeperDto) {
-        ProductBeekeeper productBeekeeper = new ProductBeekeeper();
+        ProductBeekeeper productBeekeeper = productBeekeeperAdapter.getProductBeekeeper(productBeekeeperDto);
         productBeekeeper.setProductBeekeeperId(productBeekeeperDto.getProductBeekeeperId());
-        initProductBeekeeper(productBeekeeperDto, productBeekeeper);
         productBeekeeperRepos.save(productBeekeeper);
     }
 

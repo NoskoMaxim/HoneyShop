@@ -4,6 +4,7 @@ import com.auth0.jwt.*;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import honeyshop.adapter.user.*;
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
 import honeyshop.dto.user.*;
 import honeyshop.model.user.User;
@@ -34,6 +35,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final UserRepos userRepos;
     private final RoleRepos roleRepos;
     private final PasswordEncoder passwordEncoder;
+    private final UserAdapter userAdapter = new UserAdapterImpl();
 
     @Autowired
     public UserServiceImpl(UserRepos userRepos, RoleRepos roleRepos, PasswordEncoder passwordEncoder) {
@@ -84,13 +86,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             failures.put("UsernameException", "Username does not exist");
             throw new HoneyShopException(failures);
         }
-        return convertUserToUserDto(user.get());
+        return userAdapter.getUserDto(user.get());
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         List<User> users = userRepos.findAll();
-        return convertUserListToUserDtoList(users);
+        return userAdapter.getUserDtoList(users);
     }
 
     @Override
@@ -111,7 +113,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public List<UserRoleDto> getAllRoles() {
         List<UserRole> roles = roleRepos.findAll();
-        return convertUserRoleListToUserRoleDto(roles);
+        return userAdapter.getUserRoleDto(roles);
     }
 
     @Override
@@ -167,37 +169,5 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                     "Refresh token is missing");
             throw new HoneyShopException(failures);
         }
-    }
-
-    private UserDto convertUserToUserDto(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setUserId(user.getUserId());
-        userDto.setUsername(user.getUsername());
-        userDto.setPassword(user.getPassword());
-        userDto.setEmail(user.getEmail());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setPhone(user.getPhone());
-        userDto.setRoles(user.getRoles());
-        return userDto;
-    }
-
-    private List<UserDto> convertUserListToUserDtoList(List<User> users) {
-        List<UserDto> usersDto = new ArrayList<>();
-        users.forEach(user -> usersDto.add(convertUserToUserDto(user)));
-        return usersDto;
-    }
-
-    private UserRoleDto convertUserRoleToUserRoleDto(UserRole role) {
-        UserRoleDto roleDto = new UserRoleDto();
-        roleDto.setRoleId(role.getRoleId());
-        roleDto.setRoleName(role.getName());
-        return roleDto;
-    }
-
-    private List<UserRoleDto> convertUserRoleListToUserRoleDto(List<UserRole> roles) {
-        List<UserRoleDto> rolesDto = new ArrayList<>();
-        roles.forEach(role -> rolesDto.add(convertUserRoleToUserRoleDto(role)));
-        return rolesDto;
     }
 }
