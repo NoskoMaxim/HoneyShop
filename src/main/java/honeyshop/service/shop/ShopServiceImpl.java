@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
 
+import static org.springframework.http.HttpStatus.*;
+
 @Service
 @Transactional
 public class ShopServiceImpl implements ShopService {
@@ -58,10 +60,10 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public BlankHoneyDto getBlankHoneyByName(String name) {
         Optional<BlankHoney> blankHoney = blankHoneyRepos.getBlankHoneyByName(name);
-        if (blankHoney.isEmpty()){
+        if (blankHoney.isEmpty()) {
             Map<String, String> failures = new HashMap<>();
             failures.put("BlankHoneyNameNotFoundException", "Blank honey name not found");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, NO_CONTENT);
         }
         return blankHoneyAdapter.getBlankHoneyDto(blankHoney.get());
     }
@@ -69,10 +71,10 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public InventoryBeekeeperDto getInventoryBeekeeperByName(String name) {
         Optional<InventoryBeekeeper> inventoryBeekeeper = inventoryBeekeeperRepos.getInventoryBeekeeperByName(name);
-        if (inventoryBeekeeper.isEmpty()){
+        if (inventoryBeekeeper.isEmpty()) {
             Map<String, String> failures = new HashMap<>();
             failures.put("InventoryBeekeeperNameNotFoundException", "Inventory beekeeper name not found");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, NO_CONTENT);
         }
         return inventoryBeekeeperAdapter.getInventoryBeekeeperDto(inventoryBeekeeper.get());
     }
@@ -80,10 +82,10 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public ProductBeekeeperDto getProductsBeekeeperByName(String name) {
         Optional<ProductBeekeeper> productBeekeeper = productBeekeeperRepos.getProductBeekeeperByName(name);
-        if (productBeekeeper.isEmpty()){
+        if (productBeekeeper.isEmpty()) {
             Map<String, String> failures = new HashMap<>();
             failures.put("ProductBeekeeperNameNotFoundException", "Product beekeeper name not found");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, NO_CONTENT);
         }
         return productBeekeeperAdapter.getProductBeekeeperDto(productBeekeeper.get());
     }

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
 
+import static org.springframework.http.HttpStatus.*;
+
 @Service
 @Transactional
 public class BlankHoneyServiceImpl implements BlankHoneyService {
@@ -29,10 +31,10 @@ public class BlankHoneyServiceImpl implements BlankHoneyService {
         BlankHoney blankHoney = blankHoneyAdapter.getBlankHoney(blankHoneyDto);
         try {
             blankHoneyRepos.save(blankHoney);
-        }catch (DataIntegrityViolationException psqlException){
+        } catch (DataIntegrityViolationException psqlException) {
             Map<String, String> failures = new HashMap<>();
             failures.put("BlankHoneyNameException", "Blank honey name already exists");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, BAD_REQUEST);
         }
     }
 
@@ -47,10 +49,10 @@ public class BlankHoneyServiceImpl implements BlankHoneyService {
     public void deleteBlankHoney(Long blankHoneyId) {
         try {
             blankHoneyRepos.deleteById(blankHoneyId);
-        }catch (EmptyResultDataAccessException psqlException){
+        } catch (EmptyResultDataAccessException psqlException) {
             Map<String, String> failures = new HashMap<>();
             failures.put("NotFoundBlankHoneyException", "Blank honey does not exist");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, GONE);
         }
     }
 }

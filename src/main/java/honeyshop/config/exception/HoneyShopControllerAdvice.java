@@ -9,9 +9,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class HoneyShopControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {HoneyShopException.class})
-    protected ResponseEntity handleDemoException(
+    protected ResponseEntity handleHoneyShopException(
             HoneyShopException ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getFailures(),
-                new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+                new HttpHeaders(), ex.getStatus(), request);
     }
 }

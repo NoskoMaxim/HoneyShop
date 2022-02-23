@@ -2,6 +2,7 @@ package honeyshop.service.user;
 
 import com.auth0.jwt.*;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import honeyshop.adapter.user.*;
@@ -25,7 +26,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Service
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if (user.isEmpty()) {
             Map<String, String> failures = new HashMap<>();
             failures.put("UsernameException", "Username does not exist");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, NO_CONTENT);
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.get().getRoles().forEach(role -> authorities
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         } catch (DataIntegrityViolationException exception) {
             Map<String, String> failures = new HashMap<>();
             failures.put("UsernameException", "Username already exists");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, BAD_REQUEST);
         }
     }
 
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if (user.isEmpty()) {
             Map<String, String> failures = new HashMap<>();
             failures.put("UsernameException", "Username does not exist");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, NO_CONTENT);
         }
         return userAdapter.getUserDto(user.get());
     }
@@ -106,7 +107,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             failures.put(
                     "RoleNameException",
                     "Role with name " + roleName + " already exists");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, BAD_REQUEST);
         }
     }
 
@@ -125,7 +126,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             failures.put(
                     "UsernameOrRoleNameNotFoundException",
                     "Username or Role name does not exist");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, NO_CONTENT);
         }
         user.get().getRoles().add(role.get());
         userRepos.save(user.get());
@@ -136,7 +137,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
-                String refreshToken = authorizationHeader.substring("Bearer ".length());   //FIXME fix .length()
+                String refreshToken = authorizationHeader.substring("Bearer ".length());
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
@@ -154,20 +155,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 tokens.put("refresh_token", refreshToken);
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-            } catch (Exception exception) {
-                response.setHeader("error", exception.getMessage());
-                response.setStatus(FORBIDDEN.value());
-                Map<String, String> error = new HashMap<>();
-                error.put("access_token", exception.getMessage());
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), error);
+            } catch (JWTVerificationException exception) {
+                Map<String, String> failures = new HashMap<>();
+                failures.put("RefreshTokenException", exception.getMessage());
+                throw new HoneyShopException(failures, FORBIDDEN);
             }
         } else {
             Map<String, String> failures = new HashMap<>();
             failures.put(
                     "RefreshTokenException",
                     "Refresh token is missing");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, UNAUTHORIZED);
         }
     }
 }

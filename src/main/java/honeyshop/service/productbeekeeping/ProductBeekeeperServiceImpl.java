@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
 
+import static org.springframework.http.HttpStatus.*;
+
 @Service
 @Transactional
 public class ProductBeekeeperServiceImpl implements ProductBeekeeperService {
@@ -32,7 +34,7 @@ public class ProductBeekeeperServiceImpl implements ProductBeekeeperService {
         } catch (DataIntegrityViolationException psqlException) {
             Map<String, String> failures = new HashMap<>();
             failures.put("ProductBeekeeperNameException", "Product beekeeper name already exists");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, BAD_REQUEST);
         }
     }
 
@@ -47,17 +49,10 @@ public class ProductBeekeeperServiceImpl implements ProductBeekeeperService {
     public void deleteProductBeekeeper(Long productBeekeeperId) {
         try {
             productBeekeeperRepos.deleteById(productBeekeeperId);
-        }catch (EmptyResultDataAccessException psqlException){
+        } catch (EmptyResultDataAccessException psqlException) {
             Map<String, String> failures = new HashMap<>();
             failures.put("NotFoundProductBeekeeperException", "Product beekeeper does not exist");
-            throw new HoneyShopException(failures);
+            throw new HoneyShopException(failures, GONE);
         }
-    }
-
-    private void initProductBeekeeper(ProductBeekeeperDto productBeekeeperDto, ProductBeekeeper productBeekeeper) {
-        productBeekeeper.setName(productBeekeeperDto.getName());
-        productBeekeeper.setDescription(productBeekeeperDto.getDescription());
-        productBeekeeper.setPrice(productBeekeeperDto.getPrice());
-        productBeekeeper.setPhotoUrl(productBeekeeperDto.getPhotoUrl());
     }
 }
