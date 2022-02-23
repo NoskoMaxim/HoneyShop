@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public List<UserRoleDto> getAllRoles() {
         List<UserRole> roles = roleRepos.findAll();
-        return userAdapter.getUserRoleDto(roles);
+        return userAdapter.getUserRoleDtoList(roles);
     }
 
     @Override

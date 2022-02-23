@@ -14,5 +14,5 @@ public interface UserAdapter {
 
     UserRoleDto getUserRoleDto(UserRole role);
 
-    List<UserRoleDto> getUserRoleDto(List<UserRole> roles);
+    List<UserRoleDto> getUserRoleDtoList(List<UserRole> roles);
 }

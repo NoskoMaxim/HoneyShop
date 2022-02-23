@@ -38,7 +38,7 @@ public class UserAdapterImpl implements UserAdapter{
     }
 
     @Override
-    public List<UserRoleDto> getUserRoleDto(List<UserRole> roles) {
+    public List<UserRoleDto> getUserRoleDtoList(List<UserRole> roles) {
         List<UserRoleDto> rolesDto = new ArrayList<>();
         roles.forEach(role -> rolesDto.add(getUserRoleDto(role)));
         return rolesDto;
