@@ -14,6 +14,7 @@ import honeyshop.repository.role.RoleRepos;
 import honeyshop.repository.user.UserRepos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -108,6 +109,25 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                     "RoleNameException",
                     "Role with name " + roleName + " already exists");
             throw new HoneyShopException(failures, BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public void updateRole(UserRoleDto roleDto) {
+        UserRole userRole = new UserRole();
+        userRole.setRoleId(roleDto.getRoleId());
+        userRole.setName(roleDto.getUserName());
+        roleRepos.save(userRole);
+    }
+
+    @Override
+    public void deleteRole(Long roleId) {
+        try {
+            roleRepos.deleteById(roleId);
+        } catch (EmptyResultDataAccessException psqlException) {
+            Map<String, String> failures = new HashMap<>();
+            failures.put("NotFoundRoleException", "Role does not exist");
+            throw new HoneyShopException(failures, GONE);
         }
     }
 

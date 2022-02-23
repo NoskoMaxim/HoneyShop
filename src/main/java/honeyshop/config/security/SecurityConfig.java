@@ -46,20 +46,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
         http.authorizeRequests().antMatchers(
                         GET, "/honeyshop/user/get/all")
-                .hasAnyAuthority("USER", "ADMIN", "MAINADMIN");
+                .hasAnyAuthority("ADMIN", "MAINADMIN");
         http.authorizeRequests().antMatchers(
                         GET, "/honeyshop/user/get/{username}")
-                .hasAnyAuthority("USER", "ADMIN", "MAINADMIN");
+                .hasAnyAuthority("ADMIN", "MAINADMIN");
         http.authorizeRequests().antMatchers(
-                        POST, "/honeyshop/role/create")
+                        POST, "/honeyshop/role/create", "/honeyshop/role/add")
                 .hasAnyAuthority("MAINADMIN");
         http.authorizeRequests().antMatchers(
-                        POST, "/honeyshop/role/add")
+                        DELETE, "/honeyshop/role/delete/{roleId}")
+                .hasAnyAuthority("MAINADMIN");
+        http.authorizeRequests().antMatchers(
+                        PUT, "/honeyshop/role/update")
                 .hasAnyAuthority("MAINADMIN");
         http.authorizeRequests().antMatchers(
                         GET, "/honeyshop/role/get/all")
                 .hasAnyAuthority("MAINADMIN");
-
         http.authorizeRequests().antMatchers(
                         POST, "/honeyshop/sections/**")
                 .hasAnyAuthority("USER");
