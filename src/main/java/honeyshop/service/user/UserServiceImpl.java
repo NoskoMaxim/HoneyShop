@@ -176,9 +176,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
             } catch (JWTVerificationException exception) {
-                Map<String, String> failures = new HashMap<>();
-                failures.put("RefreshTokenException", exception.getMessage());
-                throw new HoneyShopException(failures, FORBIDDEN);
+                response.setHeader("error", exception.getMessage());
+                response.setStatus(FORBIDDEN.value());
+                Map<String, String> error = new HashMap<>();
+                error.put("access_token", exception.getMessage());
+                response.setContentType(APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), error);
             }
         } else {
             Map<String, String> failures = new HashMap<>();
