@@ -81,6 +81,26 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
+    public void updateUser(UserToUpdateFormDto userDto) {
+        Optional<User> userOptional = userRepos.findById(userDto.getUserId());
+        if (userOptional.isEmpty()) {
+            Map<String, String> failures = new HashMap<>();
+            failures.put("UserException", "User does not exist");
+            throw new HoneyShopException(failures, NO_CONTENT);
+        }
+        User user = new User();
+        user.setUserId(userDto.getUserId());
+        user.setUsername(userDto.getUsername());
+        user.setPassword(userOptional.get().getPassword());
+        user.setEmail(userDto.getEmail());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPhone(userDto.getPhone());
+        user.setRoles(userOptional.get().getRoles());
+        userRepos.save(user);
+    }
+
+    @Override
     public UserDto getUserByUsername(String username) {
         Optional<User> user = userRepos.findUserByUsername(username);
         if (user.isEmpty()) {

@@ -1,9 +1,7 @@
 package honeyshop.controller.user;
 
 import honeyshop.dto.OperationMessageDto;
-import honeyshop.dto.user.RoleToUserFormDto;
-import honeyshop.dto.user.UserRoleDto;
-import honeyshop.dto.user.UsernameAndPasswordToCreateFormDto;
+import honeyshop.dto.user.*;
 import honeyshop.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +28,13 @@ public class UserController {
             consumes = {APPLICATION_JSON_VALUE})
     public ResponseEntity createUser(@RequestBody UsernameAndPasswordToCreateFormDto createForm) {
         userService.createUser(createForm);
+        return ResponseEntity.ok(new OperationMessageDto("Successful operation"));
+    }
+
+    @PutMapping(value = "/user/update",
+            consumes = {APPLICATION_JSON_VALUE})
+    public ResponseEntity updateUser(@RequestBody UserToUpdateFormDto userDto) {
+        userService.updateUser(userDto);
         return ResponseEntity.ok(new OperationMessageDto("Successful operation"));
     }
 
@@ -66,7 +71,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/role/delete/{roleId}")
-    public ResponseEntity deleteRole(@PathVariable Long roleId){
+    public ResponseEntity deleteRole(@PathVariable Long roleId) {
         userService.deleteRole(roleId);
         return ResponseEntity.ok(new OperationMessageDto("Successful operation"));
     }

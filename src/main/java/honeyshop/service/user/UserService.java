@@ -1,9 +1,6 @@
 package honeyshop.service.user;
 
-import honeyshop.dto.user.RoleToUserFormDto;
-import honeyshop.dto.user.UserDto;
-import honeyshop.dto.user.UserRoleDto;
-import honeyshop.dto.user.UsernameAndPasswordToCreateFormDto;
+import honeyshop.dto.user.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,4 +25,6 @@ public interface UserService {
     void updateRole(UserRoleDto roleDto);
 
     void deleteRole(Long roleId);
+
+    void updateUser(UserToUpdateFormDto userDto);
 }
