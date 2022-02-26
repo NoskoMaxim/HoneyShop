@@ -42,6 +42,53 @@ class UserAdapterTest {
         assertNotEquals(expected.getUserId(), 2L);
     }
 
+
+    @Test
+    void itShouldGetUser() {
+        //Arrange
+        UserToUpdateFormDto userDto = new UserToUpdateFormDto();
+        userDto.setUserId(1L);
+        userDto.setUsername("Max");
+        userDto.setFirstName("Max");
+        userDto.setLastName("MaxMax");
+        userDto.setEmail("Max@haha.com");
+        userDto.setPhone("+111111");
+
+        //Act
+        User expected = userAdapter.getUser(userDto);
+
+        //Assert
+        assertEquals(expected.getUserId(), 1L);
+        assertEquals(expected.getUsername(), "Max");
+        assertEquals(expected.getFirstName(), "Max");
+        assertEquals(expected.getLastName(), "MaxMax");
+        assertEquals(expected.getEmail(), "Max@haha.com");
+        assertEquals(expected.getPhone(), "+111111");
+    }
+
+    @Test
+    void itShouldNotGetUser() {
+        //Arrange
+        UserToUpdateFormDto userDto = new UserToUpdateFormDto();
+        userDto.setUserId(1L);
+        userDto.setUsername("Max");
+        userDto.setFirstName("Max");
+        userDto.setLastName("MaxMax");
+        userDto.setEmail("Max@haha.com");
+        userDto.setPhone("+111111");
+
+        //Act
+        User expected = userAdapter.getUser(userDto);
+
+        //Assert
+        assertNotEquals(expected.getUserId(), 2L);
+        assertNotEquals(expected.getUsername(), "Maxx");
+        assertNotEquals(expected.getFirstName(), "Maxx");
+        assertNotEquals(expected.getLastName(), "MaxMaxx");
+        assertNotEquals(expected.getEmail(), "Maxx@haha.com");
+        assertNotEquals(expected.getPhone(), "+1112111");
+    }
+
     @Test
     void itShouldGetUserRoleDto() {
         //Arrange
