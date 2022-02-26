@@ -23,6 +23,18 @@ public class UserAdapterImpl implements UserAdapter{
     }
 
     @Override
+    public User getUser(UserToUpdateFormDto userDto) {
+        User user = new User();
+        user.setUserId(userDto.getUserId());
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPhone(userDto.getPhone());
+        return user;
+    }
+
+    @Override
     public List<UserDto> getUserDtoList(List<User> users) {
         List<UserDto> usersDto = new ArrayList<>();
         users.forEach(user -> usersDto.add(getUserDto(user)));

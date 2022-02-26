@@ -88,14 +88,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             failures.put("UserException", "User does not exist");
             throw new HoneyShopException(failures, NO_CONTENT);
         }
-        User user = new User();
-        user.setUserId(userDto.getUserId());
-        user.setUsername(userDto.getUsername());
+        User user = userAdapter.getUser(userDto);
         user.setPassword(userOptional.get().getPassword());
-        user.setEmail(userDto.getEmail());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setPhone(userDto.getPhone());
         user.setRoles(userOptional.get().getRoles());
         userRepos.save(user);
     }

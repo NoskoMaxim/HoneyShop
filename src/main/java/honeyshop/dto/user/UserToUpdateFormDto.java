@@ -11,7 +11,6 @@ public class UserToUpdateFormDto {
     private String firstName;
     private String lastName;
     private String phone;
-    private List<UserRole> roles;
 
     public UserToUpdateFormDto() {
     }
@@ -62,13 +61,5 @@ public class UserToUpdateFormDto {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public List<UserRole> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<UserRole> roles) {
-        this.roles = roles;
     }
 }
