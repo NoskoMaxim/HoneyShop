@@ -29,6 +29,18 @@ public class BlankHoney {
     public BlankHoney() {
     }
 
+    public BlankHoney(Long blankHoneyId,
+                      String name,
+                      String description,
+                      Integer price,
+                      String photoUrl) {
+        this.blankHoneyId = blankHoneyId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.photoUrl = photoUrl;
+    }
+
     public Long getBlankHoneyId() {
         return blankHoneyId;
     }

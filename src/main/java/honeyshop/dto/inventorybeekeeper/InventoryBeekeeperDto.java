@@ -10,6 +10,18 @@ public class InventoryBeekeeperDto {
     public InventoryBeekeeperDto() {
     }
 
+    public InventoryBeekeeperDto(Long inventoryBeekeeperId,
+                                 String name,
+                                 String description,
+                                 Integer price,
+                                 String photoUrl) {
+        this.inventoryBeekeeperId = inventoryBeekeeperId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.photoUrl = photoUrl;
+    }
+
     public Long getInventoryBeekeeperId() {
         return inventoryBeekeeperId;
     }

@@ -10,6 +10,18 @@ public class ProductBeekeeperDto {
     public ProductBeekeeperDto() {
     }
 
+    public ProductBeekeeperDto(Long productBeekeeperId,
+                               String name,
+                               String description,
+                               Integer price,
+                               String photoUrl) {
+        this.productBeekeeperId = productBeekeeperId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.photoUrl = photoUrl;
+    }
+
     public Long getProductBeekeeperId() {
         return productBeekeeperId;
     }

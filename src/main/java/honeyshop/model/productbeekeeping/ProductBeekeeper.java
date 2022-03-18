@@ -29,6 +29,18 @@ public class ProductBeekeeper {
     public ProductBeekeeper() {
     }
 
+    public ProductBeekeeper(Long productBeekeeperId,
+                            String name,
+                            String description,
+                            Integer price,
+                            String photoUrl) {
+        this.productBeekeeperId = productBeekeeperId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.photoUrl = photoUrl;
+    }
+
     public Long getProductBeekeeperId() {
         return productBeekeeperId;
     }

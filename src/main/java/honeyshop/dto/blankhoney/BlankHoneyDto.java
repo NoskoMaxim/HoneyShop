@@ -10,6 +10,18 @@ public class BlankHoneyDto {
     public BlankHoneyDto() {
     }
 
+    public BlankHoneyDto(Long blankHoneyId,
+                         String name,
+                         String description,
+                         Integer price,
+                         String photoUrl) {
+        this.blankHoneyId = blankHoneyId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.photoUrl = photoUrl;
+    }
+
     public Long getBlankHoneyId() {
         return blankHoneyId;
     }
