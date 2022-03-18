@@ -11,6 +11,7 @@ public class BlankHoneyAdapterImpl implements BlankHoneyAdapter {
     @Override
     public BlankHoney getBlankHoney(BlankHoneyDto blankHoneyDto) {
         BlankHoney blankHoney = new BlankHoney();
+        blankHoney.setBlankHoneyId(blankHoneyDto.getBlankHoneyId());
         blankHoney.setName(blankHoneyDto.getName());
         blankHoney.setDescription(blankHoneyDto.getDescription());
         blankHoney.setPrice(blankHoneyDto.getPrice());

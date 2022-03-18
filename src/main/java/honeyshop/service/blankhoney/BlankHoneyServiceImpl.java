@@ -41,7 +41,6 @@ public class BlankHoneyServiceImpl implements BlankHoneyService {
     @Override
     public void updateBlankHoney(BlankHoneyDto blankHoneyDto) {
         BlankHoney blankHoney = blankHoneyAdapter.getBlankHoney(blankHoneyDto);
-        blankHoney.setBlankHoneyId(blankHoneyDto.getBlankHoneyId());
         blankHoneyRepos.save(blankHoney);
     }
 

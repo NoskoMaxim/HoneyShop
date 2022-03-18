@@ -10,6 +10,7 @@ public class InventoryBeekeeperAdapterImpl implements InventoryBeekeeperAdapter 
     @Override
     public InventoryBeekeeper getInventoryBeekeeper(InventoryBeekeeperDto inventoryBeekeeperDto) {
         InventoryBeekeeper inventoryBeekeeper = new InventoryBeekeeper();
+        inventoryBeekeeper.setInventoryBeekeeperId(inventoryBeekeeperDto.getInventoryBeekeeperId());
         inventoryBeekeeper.setName(inventoryBeekeeperDto.getName());
         inventoryBeekeeper.setDescription(inventoryBeekeeperDto.getDescription());
         inventoryBeekeeper.setPrice(inventoryBeekeeperDto.getPrice());

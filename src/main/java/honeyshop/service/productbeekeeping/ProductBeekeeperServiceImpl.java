@@ -41,7 +41,6 @@ public class ProductBeekeeperServiceImpl implements ProductBeekeeperService {
     @Override
     public void updateProductBeekeeper(ProductBeekeeperDto productBeekeeperDto) {
         ProductBeekeeper productBeekeeper = productBeekeeperAdapter.getProductBeekeeper(productBeekeeperDto);
-        productBeekeeper.setProductBeekeeperId(productBeekeeperDto.getProductBeekeeperId());
         productBeekeeperRepos.save(productBeekeeper);
     }
 

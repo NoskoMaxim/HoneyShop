@@ -10,6 +10,7 @@ public class ProductBeekeeperAdapterImpl implements ProductBeekeeperAdapter {
     @Override
     public ProductBeekeeper getProductBeekeeper(ProductBeekeeperDto productBeekeeperDto) {
         ProductBeekeeper productBeekeeper = new ProductBeekeeper();
+        productBeekeeper.setProductBeekeeperId(productBeekeeperDto.getProductBeekeeperId());
         productBeekeeper.setName(productBeekeeperDto.getName());
         productBeekeeper.setDescription(productBeekeeperDto.getDescription());
         productBeekeeper.setPrice(productBeekeeperDto.getPrice());

@@ -41,7 +41,6 @@ public class InventoryBeekeeperServiceImpl implements InventoryBeekeeperService 
     @Override
     public void updateInventoryBeekeeper(InventoryBeekeeperDto inventoryBeekeeperDto) {
         InventoryBeekeeper inventoryBeekeeper = inventoryBeekeeperAdapter.getInventoryBeekeeper(inventoryBeekeeperDto);
-        inventoryBeekeeper.setInventoryBeekeeperId(inventoryBeekeeperDto.getInventoryBeekeeperId());
         inventoryBeekeeperRepos.save(inventoryBeekeeper);
     }
 
