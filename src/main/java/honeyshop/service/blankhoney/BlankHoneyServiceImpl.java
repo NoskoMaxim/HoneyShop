@@ -1,29 +1,33 @@
 package honeyshop.service.blankhoney;
 
-import honeyshop.adapter.blankhoney.*;
+import honeyshop.adapter.blankhoney.BlankHoneyAdapter;
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
 import honeyshop.dto.blankhoney.BlankHoneyDto;
 import honeyshop.model.blankhoney.BlankHoney;
 import honeyshop.repository.section.BlankHoneyRepos;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.*;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.GONE;
 
 @Service
 @Transactional
 public class BlankHoneyServiceImpl implements BlankHoneyService {
 
     private final BlankHoneyRepos blankHoneyRepos;
-    private final BlankHoneyAdapter blankHoneyAdapter = new BlankHoneyAdapterImpl();
+    private final BlankHoneyAdapter blankHoneyAdapter;
 
     @Autowired
-    public BlankHoneyServiceImpl(BlankHoneyRepos blankHoneyRepos) {
+    public BlankHoneyServiceImpl(BlankHoneyRepos blankHoneyRepos, BlankHoneyAdapter blankHoneyAdapter) {
         this.blankHoneyRepos = blankHoneyRepos;
+        this.blankHoneyAdapter = blankHoneyAdapter;
     }
 
     @Override
