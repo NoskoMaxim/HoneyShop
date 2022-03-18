@@ -2,14 +2,27 @@ package honeyshop.adapter.blankhoney;
 
 import honeyshop.dto.blankhoney.BlankHoneyDto;
 import honeyshop.model.blankhoney.BlankHoney;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public interface BlankHoneyAdapter {
+@Component
+public class BlankHoneyAdapter {
+    ModelMapper blankHoneyMapper = new ModelMapper();
 
-    BlankHoney getBlankHoney(BlankHoneyDto blankHoneyDto);
+    public BlankHoney getBlankHoney(BlankHoneyDto blankHoneyDto){
+        return blankHoneyMapper.map(blankHoneyDto, BlankHoney.class);
+    }
 
-    List<BlankHoneyDto> getBlankHoneyDtoList(List<BlankHoney> blanksHoney);
+    public BlankHoneyDto getBlankHoneyDto(BlankHoney blankHoney) {
+        return blankHoneyMapper.map(blankHoney, BlankHoneyDto.class);
+    }
 
-    BlankHoneyDto getBlankHoneyDto(BlankHoney blankHoney);
+    public List<BlankHoneyDto> getBlankHoneyDtoList(List<BlankHoney> blanksHoney) {
+        return blanksHoney.stream()
+                .map(this::getBlankHoneyDto)
+                .collect(Collectors.toList());
+    }
 }
