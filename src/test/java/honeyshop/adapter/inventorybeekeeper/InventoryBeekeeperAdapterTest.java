@@ -20,7 +20,7 @@ class InventoryBeekeeperAdapterTest {
     }
 
     @Test
-    void itShouldGetBlankHoney() {
+    void itShouldGetInventoryBeekeeper() {
         //Arrange
         InventoryBeekeeperDto inventoryBeekeeperDto = new InventoryBeekeeperDto();
         inventoryBeekeeperDto.setInventoryBeekeeperId(1L);
@@ -41,7 +41,7 @@ class InventoryBeekeeperAdapterTest {
     }
 
     @Test
-    void itShouldNotGetBlankHoney() {
+    void itShouldNotGetInventoryBeekeeper() {
         //Arrange
         InventoryBeekeeperDto inventoryBeekeeperDto = new InventoryBeekeeperDto();
         inventoryBeekeeperDto.setInventoryBeekeeperId(1L);
@@ -62,7 +62,7 @@ class InventoryBeekeeperAdapterTest {
     }
 
     @Test
-    void itShouldGetBlankHoneyDto() {
+    void itShouldGetInventoryBeekeeperDto() {
         //Arrange
         InventoryBeekeeper inventoryBeekeeper = new InventoryBeekeeper();
         inventoryBeekeeper.setInventoryBeekeeperId(1L);
@@ -83,7 +83,7 @@ class InventoryBeekeeperAdapterTest {
     }
 
     @Test
-    void itShouldNotGetBlankHoneyDto() {
+    void itShouldNotGetInventoryBeekeeperDto() {
         //Arrange
         InventoryBeekeeper inventoryBeekeeper = new InventoryBeekeeper();
         inventoryBeekeeper.setInventoryBeekeeperId(1L);
@@ -104,7 +104,7 @@ class InventoryBeekeeperAdapterTest {
     }
 
     @Test
-    void itShouldGetBlankHoneyDtoList() {
+    void itShouldGetInventoryBeekeeperDtoList() {
         //Arrange
         List<InventoryBeekeeper> inventoriesBeekeeper = List.of(
                 new InventoryBeekeeper(
@@ -137,7 +137,7 @@ class InventoryBeekeeperAdapterTest {
     }
 
     @Test
-    void itShouldNotGetBlankHoneyDtoList() {
+    void itShouldNotGetInventoryBeekeeperDtoList() {
         //Arrange
         List<InventoryBeekeeper> inventoriesBeekeeper = List.of(
                 new InventoryBeekeeper(
