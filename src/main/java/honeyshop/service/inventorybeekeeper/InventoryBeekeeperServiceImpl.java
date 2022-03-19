@@ -1,29 +1,33 @@
 package honeyshop.service.inventorybeekeeper;
 
-import honeyshop.adapter.inventorybeekeeper.*;
+import honeyshop.adapter.inventorybeekeeper.InventoryBeekeeperAdapter;
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
 import honeyshop.dto.inventorybeekeeper.InventoryBeekeeperDto;
 import honeyshop.model.inventorybeekeeper.InventoryBeekeeper;
 import honeyshop.repository.section.InventoryBeekeeperRepos;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.*;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.GONE;
 
 @Service
 @Transactional
 public class InventoryBeekeeperServiceImpl implements InventoryBeekeeperService {
 
     private final InventoryBeekeeperRepos inventoryBeekeeperRepos;
-    private final InventoryBeekeeperAdapter inventoryBeekeeperAdapter = new InventoryBeekeeperAdapterImpl();
+    private final InventoryBeekeeperAdapter inventoryBeekeeperAdapter;
 
     @Autowired
-    public InventoryBeekeeperServiceImpl(InventoryBeekeeperRepos inventoryBeekeeperRepos) {
+    public InventoryBeekeeperServiceImpl(InventoryBeekeeperRepos inventoryBeekeeperRepos, InventoryBeekeeperAdapter inventoryBeekeeperAdapter) {
         this.inventoryBeekeeperRepos = inventoryBeekeeperRepos;
+        this.inventoryBeekeeperAdapter = inventoryBeekeeperAdapter;
     }
 
     @Override
