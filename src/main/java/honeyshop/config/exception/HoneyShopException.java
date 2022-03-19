@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class HoneyShopException extends RuntimeException {
 
-    private Map<String, String> failures;
-    private HttpStatus status;
+    private final Map<String, String> failures;
+    private final HttpStatus status;
 
     public HoneyShopException(Map<String, String> failures, HttpStatus status) {
         this.failures = failures;

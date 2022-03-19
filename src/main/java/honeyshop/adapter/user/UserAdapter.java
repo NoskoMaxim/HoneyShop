@@ -5,17 +5,37 @@ import honeyshop.dto.user.UserRoleDto;
 import honeyshop.dto.user.UserToUpdateFormDto;
 import honeyshop.model.user.User;
 import honeyshop.model.user.role.UserRole;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public interface UserAdapter {
-    UserDto getUserDto(User user);
+@Component
+public class UserAdapter {
+    ModelMapper userMapper = new ModelMapper();
 
-    User getUser(UserToUpdateFormDto userDto);
+    public UserDto getUserDto(User user) {
+        return userMapper.map(user, UserDto.class);
+    }
 
-    List<UserDto> getUserDtoList(List<User> users);
+    public User getUser(UserToUpdateFormDto userDto) {
+        return userMapper.map(userDto,User.class);
+    }
 
-    UserRoleDto getUserRoleDto(UserRole role);
+    public List<UserDto> getUserDtoList(List<User> users) {
+        return users.stream()
+                .map(this::getUserDto)
+                .collect(Collectors.toList());
+    }
 
-    List<UserRoleDto> getUserRoleDtoList(List<UserRole> roles);
+    public UserRoleDto getUserRoleDto(UserRole role) {
+        return userMapper.map(role, UserRoleDto.class);
+    }
+
+    public List<UserRoleDto> getUserRoleDtoList(List<UserRole> roles) {
+        return roles.stream()
+                .map(this::getUserRoleDto)
+                .collect(Collectors.toList());
+    }
 }
