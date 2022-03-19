@@ -2,13 +2,27 @@ package honeyshop.adapter.productbeekeeping;
 
 import honeyshop.dto.productbeekeeping.ProductBeekeeperDto;
 import honeyshop.model.productbeekeeping.ProductBeekeeper;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public interface ProductBeekeeperAdapter {
-    ProductBeekeeper getProductBeekeeper(ProductBeekeeperDto productBeekeeperDto);
+@Component
+public class ProductBeekeeperAdapter {
+    ModelMapper productBeekeeperMapper = new ModelMapper();
 
-    List<ProductBeekeeperDto> getProductBeekeeperDtoList(List<ProductBeekeeper> productsBeekeeper);
+    public ProductBeekeeper getProductBeekeeper(ProductBeekeeperDto productBeekeeperDto) {
+        return productBeekeeperMapper.map(productBeekeeperDto, ProductBeekeeper.class);
+    }
 
-    ProductBeekeeperDto getProductBeekeeperDto(ProductBeekeeper productBeekeeper);
+    public ProductBeekeeperDto getProductBeekeeperDto(ProductBeekeeper productBeekeeper) {
+        return productBeekeeperMapper.map(productBeekeeper, ProductBeekeeperDto.class);
+    }
+
+    public List<ProductBeekeeperDto> getProductBeekeeperDtoList(List<ProductBeekeeper> productsBeekeeper) {
+        return productsBeekeeper.stream()
+                .map(this::getProductBeekeeperDto)
+                .collect(Collectors.toList());
+    }
 }
