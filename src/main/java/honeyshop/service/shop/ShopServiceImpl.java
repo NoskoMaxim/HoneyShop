@@ -1,8 +1,8 @@
 package honeyshop.service.shop;
 
-import honeyshop.adapter.blankhoney.*;
-import honeyshop.adapter.inventorybeekeeper.*;
-import honeyshop.adapter.productbeekeeping.*;
+import honeyshop.adapter.blankhoney.BlankHoneyAdapter;
+import honeyshop.adapter.inventorybeekeeper.InventoryBeekeeperAdapter;
+import honeyshop.adapter.productbeekeeping.ProductBeekeeperAdapter;
 import honeyshop.config.exception.honeyshopexception.HoneyShopException;
 import honeyshop.dto.blankhoney.BlankHoneyDto;
 import honeyshop.dto.inventorybeekeeper.InventoryBeekeeperDto;
@@ -10,14 +10,19 @@ import honeyshop.dto.productbeekeeping.ProductBeekeeperDto;
 import honeyshop.model.blankhoney.BlankHoney;
 import honeyshop.model.inventorybeekeeper.InventoryBeekeeper;
 import honeyshop.model.productbeekeeping.ProductBeekeeper;
-import honeyshop.repository.section.*;
+import honeyshop.repository.section.BlankHoneyRepos;
+import honeyshop.repository.section.InventoryBeekeeperRepos;
+import honeyshop.repository.section.ProductBeekeeperRepos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @Service
 @Transactional
@@ -26,17 +31,23 @@ public class ShopServiceImpl implements ShopService {
     private final BlankHoneyRepos blankHoneyRepos;
     private final InventoryBeekeeperRepos inventoryBeekeeperRepos;
     private final ProductBeekeeperRepos productBeekeeperRepos;
-    private final BlankHoneyAdapter blankHoneyAdapter = new BlankHoneyAdapterImpl();
-    private final InventoryBeekeeperAdapter inventoryBeekeeperAdapter = new InventoryBeekeeperAdapterImpl();
-    private final ProductBeekeeperAdapter productBeekeeperAdapter = new ProductBeekeeperAdapterImpl();
+    private final BlankHoneyAdapter blankHoneyAdapter;
+    private final InventoryBeekeeperAdapter inventoryBeekeeperAdapter;
+    private final ProductBeekeeperAdapter productBeekeeperAdapter;
 
     @Autowired
     public ShopServiceImpl(BlankHoneyRepos blankHoneyRepos,
                            InventoryBeekeeperRepos inventoryBeekeeperRepos,
-                           ProductBeekeeperRepos productBeekeeperRepos) {
+                           ProductBeekeeperRepos productBeekeeperRepos,
+                           BlankHoneyAdapter blankHoneyAdapter,
+                           InventoryBeekeeperAdapter inventoryBeekeeperAdapter,
+                           ProductBeekeeperAdapter productBeekeeperAdapter) {
         this.blankHoneyRepos = blankHoneyRepos;
         this.inventoryBeekeeperRepos = inventoryBeekeeperRepos;
         this.productBeekeeperRepos = productBeekeeperRepos;
+        this.blankHoneyAdapter = blankHoneyAdapter;
+        this.inventoryBeekeeperAdapter = inventoryBeekeeperAdapter;
+        this.productBeekeeperAdapter = productBeekeeperAdapter;
     }
 
     @Override
