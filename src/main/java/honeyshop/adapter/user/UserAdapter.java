@@ -16,19 +16,20 @@ import java.util.stream.Collectors;
 public class UserAdapter {
     ModelMapper userMapper = new ModelMapper();
 
-    public UserDto getUserDto(User user) {
+    public UserAdapter() {
         TypeMap<User, UserDto> propertyMapper = this.userMapper.createTypeMap(User.class, UserDto.class);
-        propertyMapper.addMappings(userMapper -> userMapper.skip(UserDto::setPassword));
+        propertyMapper.addMappings(userMapper ->userMapper.skip(UserDto::setPassword));
+    }
+
+    public UserDto getUserDto(User user) {
         return userMapper.map(user, UserDto.class);
     }
 
     public User getUser(UserToUpdateFormDto userDto) {
-        return userMapper.map(userDto,User.class);
+        return userMapper.map(userDto, User.class);
     }
 
     public List<UserDto> getUserDtoList(List<User> users) {
-        TypeMap<User, UserDto> propertyMapper = this.userMapper.createTypeMap(User.class, UserDto.class);
-        propertyMapper.addMappings(userMapper -> userMapper.skip(UserDto::setPassword));
         return users.stream()
                 .map(this::getUserDto)
                 .collect(Collectors.toList());
