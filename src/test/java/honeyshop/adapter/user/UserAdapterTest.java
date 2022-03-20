@@ -28,6 +28,7 @@ class UserAdapterTest {
         User user = new User();
         user.setUserId(1L);
         user.setUsername("Max");
+        user.setPassword("Max");
         user.setFirstName("Max");
         user.setLastName("MaxMax");
         user.setEmail("Max@haha.com");
@@ -44,18 +45,19 @@ class UserAdapterTest {
         ));
 
         //Act
-        UserDto expected = userAdapter.getUserDto(user);
+        UserDto actual = userAdapter.getUserDto(user);
 
         //Assert
-        assertEquals(expected.getUserId(), 1L);
-        assertEquals(expected.getUsername(), "Max");
-        assertEquals(expected.getFirstName(), "Max");
-        assertEquals(expected.getLastName(), "MaxMax");
-        assertEquals(expected.getEmail(), "Max@haha.com");
-        assertEquals(expected.getPhone(), "+111111");
-        expected.getRoles().forEach(role -> {
-            assertEquals(role.getRoleId(), 1L);
-            assertEquals(role.getRoleName(), "USER");
+        assertEquals(1L, actual.getUserId());
+        assertEquals("Max", actual.getUsername());
+        assertNull(actual.getPassword());
+        assertEquals("Max", actual.getFirstName());
+        assertEquals("MaxMax", actual.getLastName());
+        assertEquals("Max@haha.com", actual.getEmail());
+        assertEquals("+111111", actual.getPhone());
+        actual.getRoles().forEach(role -> {
+            assertEquals(1L, role.getRoleId());
+            assertEquals("USER", role.getRoleName());
         });
     }
 
@@ -104,19 +106,20 @@ class UserAdapterTest {
         );
 
         //Act
-        List<UserDto> expectedList = userAdapter.getUserDtoList(users);
+        List<UserDto> actualList = userAdapter.getUserDtoList(users);
 
         //Assert
-        expectedList.forEach(expected -> {
-            assertEquals(expected.getUserId(), 1L);
-            assertEquals(expected.getUsername(), "Max");
-            assertEquals(expected.getFirstName(), "Max");
-            assertEquals(expected.getLastName(), "Max");
-            assertEquals(expected.getEmail(), "Max@ahah.com");
-            assertEquals(expected.getPhone(), "+111111");
-            expected.getRoles().forEach(role -> {
-                assertEquals(role.getRoleId(), 1L);
-                assertEquals(role.getRoleName(), "USER");
+        actualList.forEach(actual -> {
+            assertEquals(1L, actual.getUserId());
+            assertEquals("Max", actual.getUsername());
+            assertNull(actual.getPassword());
+            assertEquals("Max", actual.getFirstName());
+            assertEquals("Max", actual.getLastName());
+            assertEquals("Max@ahah.com", actual.getEmail());
+            assertEquals("+111111", actual.getPhone());
+            actual.getRoles().forEach(role -> {
+                assertEquals(1L, role.getRoleId());
+                assertEquals("USER", role.getRoleName());
             });
         });
     }
@@ -143,18 +146,19 @@ class UserAdapterTest {
         ));
 
         //Act
-        UserDto expected = userAdapter.getUserDto(user);
+        UserDto actual = userAdapter.getUserDto(user);
 
         //Assert
-        assertNotEquals(expected.getUserId(), 2L);
-        assertNotEquals(expected.getUsername(), "NoMax");
-        assertNotEquals(expected.getFirstName(), "NoMax");
-        assertNotEquals(expected.getLastName(), "NoMaxMax");
-        assertNotEquals(expected.getEmail(), "NoMax@haha.com");
-        assertNotEquals(expected.getPhone(), "+No111111");
-        expected.getRoles().forEach(role -> {
-            assertNotEquals(role.getRoleId(), 2L);
-            assertNotEquals(role.getRoleName(), "ADMIN");
+        assertNotEquals(2L, actual.getUserId());
+        assertNotEquals("NoMax", actual.getUsername());
+        assertNull(actual.getPassword());
+        assertNotEquals("NoMax", actual.getFirstName());
+        assertNotEquals("NoMaxMax", actual.getLastName());
+        assertNotEquals("NoMax@haha.com", actual.getEmail());
+        assertNotEquals("+No111111", actual.getPhone());
+        actual.getRoles().forEach(role -> {
+            assertNotEquals(2L, role.getRoleId());
+            assertNotEquals("ADMIN", role.getRoleName());
         });
     }
 
@@ -203,19 +207,20 @@ class UserAdapterTest {
         );
 
         //Act
-        List<UserDto> expectedList = userAdapter.getUserDtoList(users);
+        List<UserDto> actualList = userAdapter.getUserDtoList(users);
 
         //Assert
-        expectedList.forEach(expected -> {
-            assertNotEquals(expected.getUserId(), 2L);
-            assertNotEquals(expected.getUsername(), "MaxMax");
-            assertNotEquals(expected.getFirstName(), "MaxMax");
-            assertNotEquals(expected.getLastName(), "MaxMax");
-            assertNotEquals(expected.getEmail(), "Max@ahah..com");
-            assertNotEquals(expected.getPhone(), "+1111111");
-            expected.getRoles().forEach(role -> {
-                assertNotEquals(role.getRoleId(), 2L);
-                assertNotEquals(role.getRoleName(), "ADMIN");
+        actualList.forEach(actual -> {
+            assertNotEquals(2L, actual.getUserId());
+            assertNotEquals("MaxMax", actual.getUsername());
+            assertNull(actual.getPassword());
+            assertNotEquals("MaxMax", actual.getFirstName());
+            assertNotEquals("MaxMax", actual.getLastName());
+            assertNotEquals("Max@ahah..com", actual.getEmail());
+            assertNotEquals("+1111111", actual.getPhone());
+            actual.getRoles().forEach(role -> {
+                assertNotEquals(2L, role.getRoleId());
+                assertNotEquals("ADMIN", role.getRoleName());
             });
         });
     }
@@ -232,17 +237,17 @@ class UserAdapterTest {
         userDto.setPhone("+111111");
 
         //Act
-        User expected = userAdapter.getUser(userDto);
+        User actual = userAdapter.getUser(userDto);
 
         //Assert
-        assertEquals(expected.getUserId(), 1L);
-        assertEquals(expected.getUsername(), "Max");
-        assertNull(expected.getPassword());
-        assertEquals(expected.getFirstName(), "Max");
-        assertEquals(expected.getLastName(), "MaxMax");
-        assertEquals(expected.getEmail(), "Max@haha.com");
-        assertEquals(expected.getPhone(), "+111111");
-        assertEquals(expected.getRoles(), new ArrayList<>());
+        assertEquals(1L, actual.getUserId());
+        assertEquals("Max", actual.getUsername());
+        assertNull(actual.getPassword());
+        assertEquals("Max", actual.getFirstName());
+        assertEquals("MaxMax", actual.getLastName());
+        assertEquals("Max@haha.com", actual.getEmail());
+        assertEquals("+111111", actual.getPhone());
+        assertEquals(new ArrayList<>(), actual.getRoles());
     }
 
     @Test
@@ -257,17 +262,17 @@ class UserAdapterTest {
         userDto.setPhone("+111111");
 
         //Act
-        User expected = userAdapter.getUser(userDto);
+        User actual = userAdapter.getUser(userDto);
 
         //Assert
-        assertNotEquals(expected.getUserId(), 2L);
-        assertNotEquals(expected.getUsername(), "MaxMax");
-        assertNull(expected.getPassword());
-        assertNotEquals(expected.getFirstName(), "MaxMax");
-        assertNotEquals(expected.getLastName(), "MaxMaxMax");
-        assertNotEquals(expected.getEmail(), "Maxx@haha.com");
-        assertNotEquals(expected.getPhone(), "+1112111");
-        assertEquals(expected.getRoles(), new ArrayList<>());
+        assertNotEquals(2L, actual.getUserId());
+        assertNotEquals("MaxMax", actual.getUsername());
+        assertNull(actual.getPassword());
+        assertNotEquals("MaxMax", actual.getFirstName());
+        assertNotEquals("MaxMaxMax", actual.getLastName());
+        assertNotEquals("Maxx@haha.com", actual.getEmail());
+        assertNotEquals("+1112111", actual.getPhone());
+        assertEquals(new ArrayList<>(), actual.getRoles());
     }
 
     @Test
@@ -278,11 +283,11 @@ class UserAdapterTest {
         userRole.setRoleName("USER");
 
         //Act
-        UserRoleDto expected = userAdapter.getUserRoleDto(userRole);
+        UserRoleDto actual = userAdapter.getUserRoleDto(userRole);
 
         //Assert
-        assertEquals(expected.getRoleId(), 1L);
-        assertEquals(expected.getUserName(), "USER");
+        assertEquals(1L, actual.getRoleId());
+        assertEquals("USER", actual.getUserName());
     }
 
     @Test
@@ -300,12 +305,12 @@ class UserAdapterTest {
         );
 
         //Act
-        List<UserRoleDto> expectedList = userAdapter.getUserRoleDtoList(userRoles);
+        List<UserRoleDto> actualList = userAdapter.getUserRoleDtoList(userRoles);
 
         //Assert
-        expectedList.forEach(expected -> {
-            assertEquals(expected.getRoleId(), 1L);
-            assertEquals(expected.getUserName(), "USER");
+        actualList.forEach(actual -> {
+            assertEquals(1L, actual.getRoleId());
+            assertEquals("USER", actual.getUserName());
         });
     }
 
@@ -317,11 +322,11 @@ class UserAdapterTest {
         userRole.setRoleName("USER");
 
         //Act
-        UserRoleDto expected = userAdapter.getUserRoleDto(userRole);
+        UserRoleDto actual = userAdapter.getUserRoleDto(userRole);
 
         //Assert
-        assertNotEquals(expected.getRoleId(), 2L);
-        assertNotEquals(expected.getUserName(), "ADMIN");
+        assertNotEquals(2L, actual.getRoleId());
+        assertNotEquals("ADMIN", actual.getUserName());
     }
 
     @Test
@@ -339,12 +344,12 @@ class UserAdapterTest {
         );
 
         //Act
-        List<UserRoleDto> expectedList = userAdapter.getUserRoleDtoList(userRoles);
+        List<UserRoleDto> actualList = userAdapter.getUserRoleDtoList(userRoles);
 
         //Assert
-        expectedList.forEach(expected -> {
-            assertNotEquals(expected.getRoleId(), 2L);
-            assertNotEquals(expected.getUserName(), "ADMIN");
+        actualList.forEach(actual -> {
+            assertNotEquals(2L, actual.getRoleId());
+            assertNotEquals("ADMIN", actual.getUserName());
         });
     }
 }

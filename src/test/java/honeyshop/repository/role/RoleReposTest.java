@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 class RoleReposTest {
@@ -25,28 +26,23 @@ class RoleReposTest {
     void itShouldFindUserRoleByName() {
 
         //Arrange
-        String roleName = "VISITOR";
         UserRole role = new UserRole();
-        role.setName(roleName);
+        role.setRoleName("VISITOR");
         underTestRepos.save(role);
 
         //Act
-        Optional<UserRole> expected = underTestRepos
-                .findUserRoleByName(roleName);
+        Optional<UserRole> actual = underTestRepos
+                .findUserRoleByName("VISITOR");
 
         //Assert
-        assertThat(expected.get().getName()).isEqualTo(roleName);
+        assertThat(actual.get().getRoleName()).isEqualTo("VISITOR");
     }
 
     @Test
     void itShouldNotFindUserRoleByName() {
-
-        //Arrange
-        String roleName = "VISITOR";
-
         //Act
         Optional<UserRole> expected = underTestRepos
-                .findUserRoleByName(roleName);
+                .findUserRoleByName("VISITOR");
 
         //Assert
         assertThat(expected.isEmpty()).isTrue();

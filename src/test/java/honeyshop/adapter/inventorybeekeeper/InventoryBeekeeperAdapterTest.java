@@ -30,14 +30,14 @@ class InventoryBeekeeperAdapterTest {
         inventoryBeekeeperDto.setPhotoUrl("Same URL");
 
         //Act
-        InventoryBeekeeper expected = inventoryBeekeeperAdapter.getInventoryBeekeeper(inventoryBeekeeperDto);
+        InventoryBeekeeper actual = inventoryBeekeeperAdapter.getInventoryBeekeeper(inventoryBeekeeperDto);
 
         //Assert
-        assertEquals(expected.getInventoryBeekeeperId(), 1L);
-        assertEquals(expected.getName(), "Testing start");
-        assertEquals(expected.getDescription(), "Testing success");
-        assertEquals(expected.getPrice(), 15);
-        assertEquals(expected.getPhotoUrl(), "Same URL");
+        assertEquals(1L, actual.getInventoryBeekeeperId());
+        assertEquals("Testing start", actual.getName());
+        assertEquals("Testing success", actual.getDescription());
+        assertEquals(15, actual.getPrice());
+        assertEquals("Same URL", actual.getPhotoUrl());
     }
 
     @Test
@@ -51,14 +51,14 @@ class InventoryBeekeeperAdapterTest {
         inventoryBeekeeperDto.setPhotoUrl("Same URL");
 
         //Act
-        InventoryBeekeeper expected = inventoryBeekeeperAdapter.getInventoryBeekeeper(inventoryBeekeeperDto);
+        InventoryBeekeeper actual = inventoryBeekeeperAdapter.getInventoryBeekeeper(inventoryBeekeeperDto);
 
         //Assert
-        assertNotEquals(expected.getInventoryBeekeeperId(), 2L);
-        assertNotEquals(expected.getName(), "Testing no start");
-        assertNotEquals(expected.getDescription(), "Testing no success");
-        assertNotEquals(expected.getPrice(), 16);
-        assertNotEquals(expected.getPhotoUrl(), "Same no URL");
+        assertNotEquals(2L, actual.getInventoryBeekeeperId());
+        assertNotEquals("Testing no start", actual.getName());
+        assertNotEquals("Testing no success", actual.getDescription());
+        assertNotEquals(16, actual.getPrice());
+        assertNotEquals("Same no URL", actual.getPhotoUrl());
     }
 
     @Test
@@ -72,14 +72,14 @@ class InventoryBeekeeperAdapterTest {
         inventoryBeekeeper.setPhotoUrl("Same URL");
 
         //Act
-        InventoryBeekeeperDto expected = inventoryBeekeeperAdapter.getInventoryBeekeeperDto(inventoryBeekeeper);
+        InventoryBeekeeperDto actual = inventoryBeekeeperAdapter.getInventoryBeekeeperDto(inventoryBeekeeper);
 
         //Assert
-        assertEquals(expected.getInventoryBeekeeperId(), 1L);
-        assertEquals(expected.getName(), "Testing start");
-        assertEquals(expected.getDescription(), "Testing success");
-        assertEquals(expected.getPrice(), 15);
-        assertEquals(expected.getPhotoUrl(), "Same URL");
+        assertEquals(1L, actual.getInventoryBeekeeperId());
+        assertEquals("Testing start", actual.getName());
+        assertEquals("Testing success", actual.getDescription());
+        assertEquals(15, actual.getPrice());
+        assertEquals("Same URL", actual.getPhotoUrl());
     }
 
     @Test
@@ -93,14 +93,14 @@ class InventoryBeekeeperAdapterTest {
         inventoryBeekeeper.setPhotoUrl("Same URL");
 
         //Act
-        InventoryBeekeeperDto expected = inventoryBeekeeperAdapter.getInventoryBeekeeperDto(inventoryBeekeeper);
+        InventoryBeekeeperDto actual = inventoryBeekeeperAdapter.getInventoryBeekeeperDto(inventoryBeekeeper);
 
         //Assert
-        assertNotEquals(expected.getInventoryBeekeeperId(), 2L);
-        assertNotEquals(expected.getName(), "Testing no start");
-        assertNotEquals(expected.getDescription(), "Testing no success");
-        assertNotEquals(expected.getPrice(), 16);
-        assertNotEquals(expected.getPhotoUrl(), "Same no URL");
+        assertNotEquals(2L, actual.getInventoryBeekeeperId());
+        assertNotEquals("Testing no start", actual.getName());
+        assertNotEquals("Testing no success", actual.getDescription());
+        assertNotEquals(16, actual.getPrice());
+        assertNotEquals("Same no URL", actual.getPhotoUrl());
     }
 
     @Test
@@ -124,15 +124,15 @@ class InventoryBeekeeperAdapterTest {
         );
 
         //Act
-        List<InventoryBeekeeperDto> expectedList = inventoryBeekeeperAdapter.getInventoryBeekeeperDtoList(inventoriesBeekeeper);
+        List<InventoryBeekeeperDto> actualList = inventoryBeekeeperAdapter.getInventoryBeekeeperDtoList(inventoriesBeekeeper);
 
         //Assert
-        expectedList.forEach(expected->{
-            assertEquals(expected.getInventoryBeekeeperId(), 1L);
-            assertEquals(expected.getName(), "Testing start");
-            assertEquals(expected.getDescription(), "Testing success");
-            assertEquals(expected.getPrice(), 15);
-            assertEquals(expected.getPhotoUrl(), "Same URL");
+        actualList.forEach(actual -> {
+            assertEquals(1L, actual.getInventoryBeekeeperId());
+            assertEquals("Testing start", actual.getName());
+            assertEquals("Testing success", actual.getDescription());
+            assertEquals(15, actual.getPrice());
+            assertEquals("Same URL", actual.getPhotoUrl());
         });
     }
 
@@ -157,15 +157,15 @@ class InventoryBeekeeperAdapterTest {
         );
 
         //Act
-        List<InventoryBeekeeperDto> expectedList = inventoryBeekeeperAdapter.getInventoryBeekeeperDtoList(inventoriesBeekeeper);
+        List<InventoryBeekeeperDto> actualList = inventoryBeekeeperAdapter.getInventoryBeekeeperDtoList(inventoriesBeekeeper);
 
         //Assert
-        expectedList.forEach(expected->{
-            assertNotEquals(expected.getInventoryBeekeeperId(), 2L);
-            assertNotEquals(expected.getName(), "Testing no start");
-            assertNotEquals(expected.getDescription(), "Testing no success");
-            assertNotEquals(expected.getPrice(), 16);
-            assertNotEquals(expected.getPhotoUrl(), "Same no URL");
+        actualList.forEach(actual -> {
+            assertNotEquals(2L, actual.getInventoryBeekeeperId());
+            assertNotEquals("Testing no start", actual.getName());
+            assertNotEquals("Testing no success", actual.getDescription());
+            assertNotEquals(16, actual.getPrice());
+            assertNotEquals("Same no URL", actual.getPhotoUrl());
         });
     }
 }

@@ -30,14 +30,14 @@ class BlankHoneyAdapterTest {
         blankHoneyDto.setPhotoUrl("Same URL");
 
         //Act
-        BlankHoney expected = blankHoneyAdapter.getBlankHoney(blankHoneyDto);
+        BlankHoney actual = blankHoneyAdapter.getBlankHoney(blankHoneyDto);
 
         //Assert
-        assertEquals(expected.getBlankHoneyId(), 1L);
-        assertEquals(expected.getName(), "Testing start");
-        assertEquals(expected.getDescription(), "Testing success");
-        assertEquals(expected.getPrice(), 15);
-        assertEquals(expected.getPhotoUrl(), "Same URL");
+        assertEquals(1L, actual.getBlankHoneyId());
+        assertEquals("Testing start", actual.getName());
+        assertEquals("Testing success", actual.getDescription());
+        assertEquals(15, actual.getPrice());
+        assertEquals("Same URL", actual.getPhotoUrl());
     }
 
     @Test
@@ -51,14 +51,14 @@ class BlankHoneyAdapterTest {
         blankHoneyDto.setPhotoUrl("Same URL");
 
         //Act
-        BlankHoney expected = blankHoneyAdapter.getBlankHoney(blankHoneyDto);
+        BlankHoney actual = blankHoneyAdapter.getBlankHoney(blankHoneyDto);
 
         //Assert
-        assertNotEquals(expected.getBlankHoneyId(), 2L);
-        assertNotEquals(expected.getName(), "Testing no start");
-        assertNotEquals(expected.getDescription(), "Testing no success");
-        assertNotEquals(expected.getPrice(), 16);
-        assertNotEquals(expected.getPhotoUrl(), "Same no URL");
+        assertNotEquals(2L, actual.getBlankHoneyId());
+        assertNotEquals("Testing no start", actual.getName());
+        assertNotEquals("Testing no success", actual.getDescription());
+        assertNotEquals(16, actual.getPrice());
+        assertNotEquals("Same no URL", actual.getPhotoUrl());
     }
 
     @Test
@@ -72,14 +72,14 @@ class BlankHoneyAdapterTest {
         blankHoney.setPhotoUrl("Same URL");
 
         //Act
-        BlankHoneyDto expected = blankHoneyAdapter.getBlankHoneyDto(blankHoney);
+        BlankHoneyDto actual = blankHoneyAdapter.getBlankHoneyDto(blankHoney);
 
         //Assert
-        assertEquals(expected.getBlankHoneyId(), 1L);
-        assertEquals(expected.getName(), "Testing start");
-        assertEquals(expected.getDescription(), "Testing success");
-        assertEquals(expected.getPrice(), 15);
-        assertEquals(expected.getPhotoUrl(), "Same URL");
+        assertEquals(1L, actual.getBlankHoneyId());
+        assertEquals("Testing start", actual.getName());
+        assertEquals("Testing success", actual.getDescription());
+        assertEquals(15, actual.getPrice());
+        assertEquals("Same URL", actual.getPhotoUrl());
     }
 
     @Test
@@ -93,14 +93,14 @@ class BlankHoneyAdapterTest {
         blankHoney.setPhotoUrl("Same URL");
 
         //Act
-        BlankHoneyDto expected = blankHoneyAdapter.getBlankHoneyDto(blankHoney);
+        BlankHoneyDto actual = blankHoneyAdapter.getBlankHoneyDto(blankHoney);
 
         //Assert
-        assertNotEquals(expected.getBlankHoneyId(), 2L);
-        assertNotEquals(expected.getName(), "Testing no start");
-        assertNotEquals(expected.getDescription(), "Testing no success");
-        assertNotEquals(expected.getPrice(), 16);
-        assertNotEquals(expected.getPhotoUrl(), "Same no URL");
+        assertNotEquals(2L, actual.getBlankHoneyId());
+        assertNotEquals("Testing no start", actual.getName());
+        assertNotEquals("Testing no success", actual.getDescription());
+        assertNotEquals(16, actual.getPrice());
+        assertNotEquals("Same no URL", actual.getPhotoUrl());
     }
 
     @Test
@@ -124,15 +124,15 @@ class BlankHoneyAdapterTest {
         );
 
         //Act
-        List<BlankHoneyDto> expectedList = blankHoneyAdapter.getBlankHoneyDtoList(blanksHoney);
+        List<BlankHoneyDto> actualList = blankHoneyAdapter.getBlankHoneyDtoList(blanksHoney);
 
         //Assert
-        expectedList.forEach(expected->{
-            assertEquals(expected.getBlankHoneyId(), 1L);
-            assertEquals(expected.getName(), "Testing start");
-            assertEquals(expected.getDescription(), "Testing success");
-            assertEquals(expected.getPrice(), 15);
-            assertEquals(expected.getPhotoUrl(), "Same URL");
+        actualList.forEach(actual -> {
+            assertEquals(1L, actual.getBlankHoneyId());
+            assertEquals("Testing start", actual.getName());
+            assertEquals("Testing success", actual.getDescription());
+            assertEquals(15, actual.getPrice());
+            assertEquals("Same URL", actual.getPhotoUrl());
         });
     }
 
@@ -157,15 +157,15 @@ class BlankHoneyAdapterTest {
         );
 
         //Act
-        List<BlankHoneyDto> expectedList = blankHoneyAdapter.getBlankHoneyDtoList(blanksHoney);
+        List<BlankHoneyDto> actualList = blankHoneyAdapter.getBlankHoneyDtoList(blanksHoney);
 
         //Assert
-        expectedList.forEach(expected->{
-            assertNotEquals(expected.getBlankHoneyId(), 2L);
-            assertNotEquals(expected.getName(), "Testing no start");
-            assertNotEquals(expected.getDescription(), "Testing no success");
-            assertNotEquals(expected.getPrice(), 16);
-            assertNotEquals(expected.getPhotoUrl(), "Same no URL");
+        actualList.forEach(actual -> {
+            assertNotEquals(2L, actual.getBlankHoneyId());
+            assertNotEquals("Testing no start", actual.getName());
+            assertNotEquals("Testing no success", actual.getDescription());
+            assertNotEquals(16, actual.getPrice());
+            assertNotEquals("Same no URL", actual.getPhotoUrl());
         });
     }
 }
