@@ -6,6 +6,7 @@ import honeyshop.dto.user.UserToUpdateFormDto;
 import honeyshop.model.user.User;
 import honeyshop.model.user.role.UserRole;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public class UserAdapter {
     ModelMapper userMapper = new ModelMapper();
 
     public UserDto getUserDto(User user) {
+        TypeMap<User, UserDto> propertyMapper = this.userMapper.createTypeMap(User.class, UserDto.class);
+        propertyMapper.addMappings(userMapper -> userMapper.skip(UserDto::setPassword));
         return userMapper.map(user, UserDto.class);
     }
 
@@ -24,6 +27,8 @@ public class UserAdapter {
     }
 
     public List<UserDto> getUserDtoList(List<User> users) {
+        TypeMap<User, UserDto> propertyMapper = this.userMapper.createTypeMap(User.class, UserDto.class);
+        propertyMapper.addMappings(userMapper -> userMapper.skip(UserDto::setPassword));
         return users.stream()
                 .map(this::getUserDto)
                 .collect(Collectors.toList());
