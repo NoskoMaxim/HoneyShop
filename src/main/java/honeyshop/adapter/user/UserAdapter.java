@@ -17,8 +17,13 @@ public class UserAdapter {
     ModelMapper userMapper = new ModelMapper();
 
     public UserAdapter() {
-        TypeMap<User, UserDto> propertyMapper = this.userMapper.createTypeMap(User.class, UserDto.class);
-        propertyMapper.addMappings(userMapper ->userMapper.skip(UserDto::setPassword));
+        TypeMap<User, UserDto> propertyMapperUserToUserDto = this.userMapper.createTypeMap(User.class, UserDto.class);
+        propertyMapperUserToUserDto.addMappings(userMapper -> userMapper.skip(UserDto::setPassword));
+        TypeMap<UserDto, User> propertyMapperUserDtoToUser = this.userMapper.createTypeMap(UserDto.class, User.class);
+        propertyMapperUserDtoToUser.addMappings(userMapper -> {
+            userMapper.skip(User::setPassword);
+            userMapper.skip(User::setRoles);
+        });
     }
 
     public UserDto getUserDto(User user) {
