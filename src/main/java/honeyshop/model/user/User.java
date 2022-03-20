@@ -2,7 +2,15 @@ package honeyshop.model.user;
 
 import honeyshop.model.user.role.UserRole;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +53,17 @@ public class User {
     private List<UserRole> roles = new ArrayList<>();
 
     public User() {
+    }
+
+    public User(Long userId, String username, String password, String firstName, String lastName, String email, String phone, List<UserRole> roles) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.roles = roles;
     }
 
     public Long getUserId() {
