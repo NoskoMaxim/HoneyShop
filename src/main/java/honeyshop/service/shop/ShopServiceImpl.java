@@ -3,7 +3,7 @@ package honeyshop.service.shop;
 import honeyshop.adapter.blankhoney.BlankHoneyAdapter;
 import honeyshop.adapter.inventorybeekeeper.InventoryBeekeeperAdapter;
 import honeyshop.adapter.productbeekeeping.ProductBeekeeperAdapter;
-import honeyshop.config.exception.honeyshopexception.HoneyShopException;
+import honeyshop.config.exception.honeyshopexception.SectionNotFoundException;
 import honeyshop.dto.blankhoney.BlankHoneyDto;
 import honeyshop.dto.inventorybeekeeper.InventoryBeekeeperDto;
 import honeyshop.dto.productbeekeeping.ProductBeekeeperDto;
@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
@@ -70,34 +68,37 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public BlankHoneyDto getBlankHoneyByName(String name) {
-        Optional<BlankHoney> blankHoney = blankHoneyRepos.getBlankHoneyByName(name);
-        if (blankHoney.isEmpty()) {
-            Map<String, String> failures = new HashMap<>();
-            failures.put("BlankHoneyNameNotFoundException", "Blank honey name not found");
-            throw new HoneyShopException(failures, NO_CONTENT);
-        }
-        return blankHoneyAdapter.getBlankHoneyDto(blankHoney.get());
+        return blankHoneyRepos.getBlankHoneyByName(name)
+                .map(blankHoneyAdapter::getBlankHoneyDto)
+                .orElseThrow(() -> new SectionNotFoundException(
+                        new HashMap<>() {{
+                            put("SectionNotFoundException",
+                                    "Blank honey name: " + name + " not found");
+                        }}, NO_CONTENT)
+                );
     }
 
     @Override
     public InventoryBeekeeperDto getInventoryBeekeeperByName(String name) {
-        Optional<InventoryBeekeeper> inventoryBeekeeper = inventoryBeekeeperRepos.getInventoryBeekeeperByName(name);
-        if (inventoryBeekeeper.isEmpty()) {
-            Map<String, String> failures = new HashMap<>();
-            failures.put("InventoryBeekeeperNameNotFoundException", "Inventory beekeeper name not found");
-            throw new HoneyShopException(failures, NO_CONTENT);
-        }
-        return inventoryBeekeeperAdapter.getInventoryBeekeeperDto(inventoryBeekeeper.get());
+        return inventoryBeekeeperRepos.getInventoryBeekeeperByName(name)
+                .map(inventoryBeekeeperAdapter::getInventoryBeekeeperDto)
+                .orElseThrow(() -> new SectionNotFoundException(
+                        new HashMap<>() {{
+                            put("SectionNotFoundException",
+                                    "Inventory beekeeper name: " + name + " not found");
+                        }}, NO_CONTENT)
+                );
     }
 
     @Override
     public ProductBeekeeperDto getProductsBeekeeperByName(String name) {
-        Optional<ProductBeekeeper> productBeekeeper = productBeekeeperRepos.getProductBeekeeperByName(name);
-        if (productBeekeeper.isEmpty()) {
-            Map<String, String> failures = new HashMap<>();
-            failures.put("ProductBeekeeperNameNotFoundException", "Product beekeeper name not found");
-            throw new HoneyShopException(failures, NO_CONTENT);
-        }
-        return productBeekeeperAdapter.getProductBeekeeperDto(productBeekeeper.get());
+        return productBeekeeperRepos.getProductBeekeeperByName(name)
+                .map(productBeekeeperAdapter::getProductBeekeeperDto)
+                .orElseThrow(() -> new SectionNotFoundException(
+                        new HashMap<>() {{
+                            put("SectionNotFoundException",
+                                    "Product beekeeper name: " + name + " not found");
+                        }}, NO_CONTENT)
+                );
     }
 }

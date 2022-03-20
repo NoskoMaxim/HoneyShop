@@ -1,7 +1,8 @@
 package honeyshop.service.productbeekeeping;
 
 import honeyshop.adapter.productbeekeeping.ProductBeekeeperAdapter;
-import honeyshop.config.exception.honeyshopexception.HoneyShopException;
+import honeyshop.config.exception.honeyshopexception.SectionNameExistenceException;
+import honeyshop.config.exception.honeyshopexception.SectionNotFoundException;
 import honeyshop.dto.productbeekeeping.ProductBeekeeperDto;
 import honeyshop.model.productbeekeeping.ProductBeekeeper;
 import honeyshop.repository.section.ProductBeekeeperRepos;
@@ -12,9 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
-import java.util.Map;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.GONE;
 
 @Service
@@ -36,9 +35,10 @@ public class ProductBeekeeperServiceImpl implements ProductBeekeeperService {
         try {
             productBeekeeperRepos.save(productBeekeeper);
         } catch (DataIntegrityViolationException psqlException) {
-            Map<String, String> failures = new HashMap<>();
-            failures.put("ProductBeekeeperNameException", "Product beekeeper name already exists");
-            throw new HoneyShopException(failures, BAD_REQUEST);
+            throw new SectionNameExistenceException(new HashMap<>() {{
+                put("SectionNameExistenceException",
+                        "Product beekeeper name: " + productBeekeeper.getName() + " already exists");
+            }});
         }
     }
 
@@ -53,9 +53,10 @@ public class ProductBeekeeperServiceImpl implements ProductBeekeeperService {
         try {
             productBeekeeperRepos.deleteById(productBeekeeperId);
         } catch (EmptyResultDataAccessException psqlException) {
-            Map<String, String> failures = new HashMap<>();
-            failures.put("NotFoundProductBeekeeperException", "Product beekeeper does not exist");
-            throw new HoneyShopException(failures, GONE);
+            throw new SectionNotFoundException(new HashMap<>() {{
+                put("SectionNotFoundException",
+                        "Product beekeeper with ID: " + productBeekeeperId + " does not exist");
+            }}, GONE);
         }
     }
 }

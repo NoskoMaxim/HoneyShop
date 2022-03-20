@@ -1,7 +1,8 @@
 package honeyshop.service.blankhoney;
 
 import honeyshop.adapter.blankhoney.BlankHoneyAdapter;
-import honeyshop.config.exception.honeyshopexception.HoneyShopException;
+import honeyshop.config.exception.honeyshopexception.SectionNameExistenceException;
+import honeyshop.config.exception.honeyshopexception.SectionNotFoundException;
 import honeyshop.dto.blankhoney.BlankHoneyDto;
 import honeyshop.model.blankhoney.BlankHoney;
 import honeyshop.repository.section.BlankHoneyRepos;
@@ -12,9 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
-import java.util.Map;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.GONE;
 
 @Service
@@ -36,9 +35,10 @@ public class BlankHoneyServiceImpl implements BlankHoneyService {
         try {
             blankHoneyRepos.save(blankHoney);
         } catch (DataIntegrityViolationException psqlException) {
-            Map<String, String> failures = new HashMap<>();
-            failures.put("BlankHoneyNameException", "Blank honey name already exists");
-            throw new HoneyShopException(failures, BAD_REQUEST);
+            throw new SectionNameExistenceException(new HashMap<>() {{
+                put("SectionNameExistenceException",
+                        "Blank honey name: " + blankHoney.getName() + " already exists");
+            }});
         }
     }
 
@@ -53,9 +53,10 @@ public class BlankHoneyServiceImpl implements BlankHoneyService {
         try {
             blankHoneyRepos.deleteById(blankHoneyId);
         } catch (EmptyResultDataAccessException psqlException) {
-            Map<String, String> failures = new HashMap<>();
-            failures.put("NotFoundBlankHoneyException", "Blank honey does not exist");
-            throw new HoneyShopException(failures, GONE);
+            throw new SectionNotFoundException(new HashMap<>() {{
+                put("SectionNotFoundException",
+                        "Blank honey with ID: " + blankHoneyId + " does not exist");
+            }}, GONE);
         }
     }
 }

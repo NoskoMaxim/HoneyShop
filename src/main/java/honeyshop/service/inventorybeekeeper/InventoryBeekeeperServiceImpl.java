@@ -1,7 +1,8 @@
 package honeyshop.service.inventorybeekeeper;
 
 import honeyshop.adapter.inventorybeekeeper.InventoryBeekeeperAdapter;
-import honeyshop.config.exception.honeyshopexception.HoneyShopException;
+import honeyshop.config.exception.honeyshopexception.SectionNameExistenceException;
+import honeyshop.config.exception.honeyshopexception.SectionNotFoundException;
 import honeyshop.dto.inventorybeekeeper.InventoryBeekeeperDto;
 import honeyshop.model.inventorybeekeeper.InventoryBeekeeper;
 import honeyshop.repository.section.InventoryBeekeeperRepos;
@@ -12,9 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
-import java.util.Map;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.GONE;
 
 @Service
@@ -36,9 +35,10 @@ public class InventoryBeekeeperServiceImpl implements InventoryBeekeeperService 
         try {
             inventoryBeekeeperRepos.save(inventoryBeekeeper);
         } catch (DataIntegrityViolationException psqlException) {
-            Map<String, String> failures = new HashMap<>();
-            failures.put("InventoryBeekeeperNameException", "Inventory beekeeper name already exists");
-            throw new HoneyShopException(failures, BAD_REQUEST);
+            throw new SectionNameExistenceException(new HashMap<>() {{
+                put("SectionNameExistenceException",
+                        "Inventory beekeeper name: " + inventoryBeekeeper.getName() + " already exists");
+            }});
         }
     }
 
@@ -53,9 +53,10 @@ public class InventoryBeekeeperServiceImpl implements InventoryBeekeeperService 
         try {
             inventoryBeekeeperRepos.deleteById(inventoryBeekeeperId);
         } catch (EmptyResultDataAccessException psqlException) {
-            Map<String, String> failures = new HashMap<>();
-            failures.put("NotFoundInventoryBeekeeperException", "Inventory beekeeper does not exist");
-            throw new HoneyShopException(failures, GONE);
+            throw new SectionNotFoundException(new HashMap<>() {{
+                put("SectionNotFoundException",
+                        "Inventory beekeeper with ID: " + inventoryBeekeeperId + " does not exist");
+            }}, GONE);
         }
     }
 }
